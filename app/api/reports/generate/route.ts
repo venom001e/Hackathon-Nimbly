@@ -101,13 +101,13 @@ export async function GET(request: NextRequest) {
           '',
           'STATE SUMMARY',
           'State,Total Enrolments,Age 0-5,Age 5-17,Age 18+,Districts',
-          ...stateSummary.map(s => 
+          ...stateSummary.map((s: any) => 
             `${s.state},${s.totalEnrolments},${s.age_0_5},${s.age_5_17},${s.age_18_greater},${s.districts}`
           ),
           '',
           'DAILY TRENDS',
           'Date,Enrolments',
-          ...dailyTrends.map(d => `${d.date},${d.count}`)
+          ...dailyTrends.map((d: any) => `${d.date},${d.count}`)
         ]
       } else if (reportType === 'comparison') {
         // State comparison report
@@ -135,7 +135,7 @@ export async function GET(request: NextRequest) {
           '',
           'STATE SUMMARY',
           'State,Total Enrolments,Age 0-5,Age 5-17,Age 18+,Districts',
-          ...stateSummary.map(s => 
+          ...stateSummary.map((s: any) => 
             `${s.state},${s.totalEnrolments},${s.age_0_5},${s.age_5_17},${s.age_18_greater},${s.districts}`
           )
         ]

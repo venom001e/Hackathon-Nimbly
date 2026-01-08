@@ -34,7 +34,7 @@ describe('Property 1: Data Processing Pipeline Integrity', () => {
     fc.assert(
       fc.property(fc.array(validEnrolmentRecordArbitrary, { minLength: 1, maxLength: 100 }), (records) => {
         // Simulate data processing pipeline
-        const processedRecords = records.map(record => ({
+        const processedRecords = records.map((record: any) => ({
           ...record,
           timestamp: new Date(record.timestamp),
           state: record.state.trim(),

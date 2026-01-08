@@ -6,7 +6,7 @@ export class AnalyticsUtils {
 
   static calculateStandardDeviation(values: number[]): number {
     const mean = this.calculateMean(values)
-    const squaredDiffs = values.map(val => Math.pow(val - mean, 2))
+    const squaredDiffs = values.map((val: number) => Math.pow(val - mean, 2))
     return Math.sqrt(this.calculateMean(squaredDiffs))
   }
 
@@ -38,9 +38,9 @@ export class AnalyticsUtils {
     const stdDev = this.calculateStandardDeviation(values)
     
     return values
-      .map((val, index) => ({ value: val, index, zScore: this.calculateZScore(val, mean, stdDev) }))
-      .filter(item => Math.abs(item.zScore) > threshold)
-      .map(item => item.index)
+      .map((val: number, index: number) => ({ value: val, index, zScore: this.calculateZScore(val, mean, stdDev) }))
+      .filter((item: any) => Math.abs(item.zScore) > threshold)
+      .map((item: any) => item.index)
   }
 
   // Seasonal pattern detection
@@ -69,9 +69,9 @@ export class AnalyticsUtils {
 
     const hasPattern = amplitude > threshold
     const peakIndices = seasonalComponents
-      .map((val, index) => ({ value: val, index }))
-      .filter(item => item.value > seasonalMean + threshold / 2)
-      .map(item => item.index)
+      .map((val: number, index: number) => ({ value: val, index }))
+      .filter((item: any) => item.value > seasonalMean + threshold / 2)
+      .map((item: any) => item.index)
 
     return { hasPattern, amplitude, peakIndices }
   }

@@ -12,7 +12,7 @@ export async function GET() {
     const avgPerState = totalEnrolments / stateData.length
 
     // Calculate growth rate
-    const counts = dailyTrends.map(d => d.count)
+    const counts = dailyTrends.map((d: any) => d.count)
     const recentAvg = AnalyticsUtils.calculateMean(counts.slice(-7))
     const olderAvg = AnalyticsUtils.calculateMean(counts.slice(-14, -7))
     const growthRate = olderAvg > 0 ? (recentAvg - olderAvg) / olderAvg : 0

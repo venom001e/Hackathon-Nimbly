@@ -120,7 +120,7 @@ Top 5 States by Enrollment:
 ${topStates.map((s, i) => `${i+1}. ${s.state}: ${s.count.toLocaleString()}`).join('\n')}
 
 Recent Daily Trends (Last 7 days):
-${dailyTrends.map(d => `${d.date}: ${d.count.toLocaleString()}`).join('\n')}
+${dailyTrends.map((d: any) => `${d.date}: ${d.count.toLocaleString()}`).join('\n')}
 `
   } catch {
     return 'Data context unavailable'

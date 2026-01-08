@@ -105,11 +105,11 @@ export async function GET(request: NextRequest) {
     })
 
     const topPerformingStates = stateAggregation
-      .map(item => ({
+      .map((item: any) => ({
         state: item.state,
         count: (item._sum.age_0_5 || 0) + (item._sum.age_5_17 || 0) + (item._sum.age_18_greater || 0)
       }))
-      .sort((a, b) => b.count - a.count)
+      .sort((a: any, b: any) => b.count - a.count)
       .slice(0, 10)
 
     // Get anomaly count
@@ -138,7 +138,7 @@ export async function GET(request: NextRequest) {
 
     let predictionAccuracy = 85.0
     if (recentForecasts.length > 0) {
-      const accuracyScores = recentForecasts.map(forecast => {
+      const accuracyScores = recentForecasts.map((forecast: any) => {
         const accuracy = forecast.accuracy_metrics as any
         return accuracy?.mape ? (100 - accuracy.mape) : 85
       })

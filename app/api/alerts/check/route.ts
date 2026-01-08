@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     })
     
     const dailyTrends = await csvDataLoader.getDailyTrends(30)
-    const dailyCounts = dailyTrends.map(d => d.count)
+    const dailyCounts = dailyTrends.map((d: any) => d.count)
     
     // Calculate current values
     const latestDailyCount = dailyCounts[dailyCounts.length - 1] || 0

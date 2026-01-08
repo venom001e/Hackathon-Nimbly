@@ -73,7 +73,7 @@ async function processFileAsync(file: File, uploadId: string) {
         where: { id: uploadId },
         data: {
           status: 'failed',
-          error_message: `Parse errors: ${parseResult.errors.map(e => e.message).join(', ')}`
+          error_message: `Parse errors: ${parseResult.errors.map((e: any) => e.message).join(', ')}`
         }
       })
       return

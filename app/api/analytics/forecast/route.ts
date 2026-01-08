@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
     // Get historical data
     const dailyTrends = await csvDataLoader.getDailyTrends(90)
-    const counts = dailyTrends.map(d => d.count)
+    const counts = dailyTrends.map((d: any) => d.count)
 
     if (counts.length < 7) {
       return NextResponse.json({

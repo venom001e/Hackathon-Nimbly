@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
 
     // Get daily trends for growth calculation
     const dailyTrends = await csvDataLoader.getDailyTrends(30)
-    const dailyCounts = dailyTrends.map(d => d.count)
+    const dailyCounts = dailyTrends.map((d: any) => d.count)
 
     // Calculate growth rate
     let dailyGrowthRate = 0

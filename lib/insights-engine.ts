@@ -69,7 +69,7 @@ export class InsightsEngine {
     
     for (const state of states) {
       if (query.includes(state)) {
-        return stateMap[state] || state.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+        return stateMap[state] || state.split(' ').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
       }
     }
     return undefined
@@ -113,7 +113,7 @@ export class InsightsEngine {
   ): Promise<InsightResponse> {
     const metrics = await csvDataLoader.getAggregatedMetrics({ state, district })
     const dailyTrends = await csvDataLoader.getDailyTrends(30)
-    const dailyCounts = dailyTrends.map(d => d.count)
+    const dailyCounts = dailyTrends.map((d: any) => d.count)
     
     const trendDirection = AnalyticsUtils.detectTrendDirection(dailyCounts)
     const mean = AnalyticsUtils.calculateMean(dailyCounts)
@@ -157,7 +157,7 @@ export class InsightsEngine {
       }
     }
     
-    const anomalies = anomalyIndices.map(i => ({
+    const anomalies = anomalyIndices.map((i: number) => ({
       date: dates[i],
       count: dailyCounts[i],
       type: dailyCounts[i] > AnalyticsUtils.calculateMean(dailyCounts) ? 'spike' : 'drop'
@@ -286,7 +286,7 @@ export class InsightsEngine {
     const metrics = await csvDataLoader.getAggregatedMetrics()
     const topStates = await csvDataLoader.getTopStates(10)
     const dailyTrends = await csvDataLoader.getDailyTrends(7)
-    const dailyCounts = dailyTrends.map(d => d.count)
+    const dailyCounts = dailyTrends.map((d: any) => d.count)
     
     const trendDirection = AnalyticsUtils.detectTrendDirection(dailyCounts)
     const anomalyIndices = AnalyticsUtils.detectAnomaliesZScore(dailyCounts, 2.0)

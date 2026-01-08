@@ -194,12 +194,12 @@ class CSVDataLoader {
 
   async getUniqueStates(): Promise<string[]> {
     const data = await this.loadAllData()
-    return [...new Set(data.map(r => r.state))].sort()
+    return [...new Set(data.map((r: any) => r.state))].sort()
   }
 
   async getDistrictsByState(state: string): Promise<string[]> {
     const data = await this.loadAllData()
-    return [...new Set(data.filter(r => r.state === state).map(r => r.district))].sort()
+    return [...new Set(data.filter((r: any) => r.state === state).map((r: any) => r.district))].sort()
   }
 
   async getStateSummary(): Promise<{

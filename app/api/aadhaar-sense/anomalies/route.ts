@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     const dailyTrends = await csvDataLoader.getDailyTrends(30)
 
     const anomalies: any[] = []
-    const counts = dailyTrends.map(d => d.count)
+    const counts = dailyTrends.map((d: any) => d.count)
     const mean = AnalyticsUtils.calculateMean(counts)
     const stdDev = AnalyticsUtils.calculateStandardDeviation(counts)
 

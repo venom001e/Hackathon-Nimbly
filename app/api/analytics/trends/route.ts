@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
     // Prepare seasonal component
     const seasonalComponent = seasonalAnalysis.hasPattern ? {
       pattern_type: 'weekly' as const,
-      peak_periods: seasonalAnalysis.peakIndices.map(i => `Day ${i + 1}`),
+      peak_periods: seasonalAnalysis.peakIndices.map((i: number) => `Day ${i + 1}`),
       low_periods: [],
       amplitude: seasonalAnalysis.amplitude
     } : undefined
