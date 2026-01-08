@@ -39,7 +39,7 @@ export async function GET() {
       }),
     ])
 
-    const stateData = stateStats.map(s => ({
+    const stateData = stateStats.map((s: any) => ({
       state: s.state,
       total: (s._sum.age_0_5 || 0) + (s._sum.age_5_17 || 0) + (s._sum.age_18_greater || 0),
       records: s._count,
