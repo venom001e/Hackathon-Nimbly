@@ -1,0 +1,162 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EnrolmentData {
+  id            String   @id @default(cuid())
+  date          DateTime
+  state         String
+  district      String
+  pincode       String
+  age_0_5       Int
+  age_5_17      Int
+  age_18_greater Int
+  created_at    DateTime @default(now())
+
+  @@index([date])
+  @@index([state, district])
+  @@index([pincode])
+  @@map("enrolment_data")
+}
+
+model TrendAnalysis {
+  id                   String   @id @default(cuid())
+  metric               String
+  time_period          String
+  trend_direction      String
+  confidence_score     Float
+  geographic_breakdown Json
+  seasonal_component   Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  @@index([metric, time_period])
+  @@map("trend_analysis")
+}
+
+model Anomaly {
+  id                String   @id @default(cuid())
+  timestamp         DateTime
+  anomaly_type      String
+  severity          String
+  affected_regions  Json
+  description       String
+  confidence_score  Float
+  suggested_actions Json
+  resolved          Boolean  @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  @@index([timestamp])
+  @@index([severity])
+  @@index([resolved])
+  @@map("anomalies")
+}
+
+model Forecast {
+  id                 String   @id @default(cuid())
+  metric             String
+  forecast_horizon   Int
+  predicted_values   Json
+  confidence_intervals Json
+  model_used         String
+  accuracy_metrics   Json
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  @@index([metric])
+  @@index([created_at])
+  @@map("forecasts")
+}
+
+model Insight {
+  id                String   @id @default(cuid())
+  title             String
+  description       String
+  priority          Int
+  category          String
+  supporting_data   Json
+  recommendations   Json
+  impact_assessment String
+  status            String   @default("active")
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  @@index([priority])
+  @@index([category])
+  @@index([status])
+  @@map("insights")
+}
+
+model UploadJob {
+  id               String   @id @default(cuid())
+  filename         String
+  status           String
+  progress         Float    @default(0)
+  error_message    String?
+  processed_records Int     @default(0)
+  total_records    Int      @default(0)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@index([status])
+  @@index([created_at])
+  @@map("upload_jobs")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  password_hash String
+  role          String   @default("analyst")
+  permissions   Json     @default("[]")
+  last_login    DateTime?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  user_id    String?
+  action     String
+  resource   String
+  details    Json
+  ip_address String?
+  user_agent String?
+  created_at DateTime @default(now())
+
+  @@index([user_id])
+  @@index([action])
+  @@index([created_at])
+  @@map("audit_logs")
+}
+
+model Report {
+  id              String   @id @default(cuid())
+  title           String
+  report_type     String
+  content         Json
+  format          String
+  recipients      Json
+  delivery_status String   @default("pending")
+  scheduled_at    DateTime?
+  generated_at    DateTime @default(now())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  @@index([report_type])
+  @@index([delivery_status])
+  @@index([scheduled_at])
+  @@map("reports")
+}
