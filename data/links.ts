@@ -10,6 +10,18 @@ export const links: ILink[] = [
         href: "/analytics",
     },
     {
+        name: "Enrolment Data",
+        href: "/analytics/enrolment",
+    },
+    {
+        name: "Demographic Updates",
+        href: "/analytics/demographic-updates",
+    },
+    {
+        name: "Biometric Updates",
+        href: "/analytics/biometric-updates",
+    },
+    {
         name: "AadhaarSense",
         href: "/analytics/aadhaar-sense",
     },

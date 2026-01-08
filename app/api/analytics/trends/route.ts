@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     const dailyData = new Map<string, number>()
     const geographicData = new Map<string, number>()
 
-    enrolmentData.forEach(record => {
+    enrolmentData.forEach((record: any) => {
       const dateKey = AnalyticsUtils.formatDateForAPI(record.date)
       const geoKey = `${record.state}-${record.district}`
       const total = record.age_0_5 + record.age_5_17 + record.age_18_greater
