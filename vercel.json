@@ -1,19 +1,7 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "framework": "nextjs",
-  "installCommand": "npm install",
-  "env": {
-    "DATABASE_URL": "@database-url",
-    "NEXTAUTH_SECRET": "@nextauth-secret",
-    "NEXTAUTH_URL": "@nextauth-url",
-    "GEMINI_API_KEY": "@gemini-api-key",
-    "GOOGLE_AI_API_KEY": "@google-ai-api-key"
-  },
   "functions": {
     "app/api/**/*.ts": {
-      "maxDuration": 30
+      "maxDuration": 10
     }
-  },
-  "regions": ["iad1"]
+  }
 }

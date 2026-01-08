@@ -122,6 +122,7 @@ cp .env.example .env
 ```
 
 4. **Configure environment variables**
+Edit the `.env` file with your actual values:
 ```env
 # Database
 DATABASE_URL="postgresql://user:password@localhost:5432/nimbly"
@@ -132,6 +133,8 @@ GEMINI_API_KEY="your-gemini-api-key"
 # JWT Secret
 JWT_SECRET="your-jwt-secret"
 ```
+
+⚠️ **Security Note**: Never commit your `.env` file to version control. It contains sensitive information like API keys and database credentials.
 
 5. **Setup database (optional)**
 ```bash
