@@ -43,7 +43,7 @@ export async function GET() {
       state: s.state,
       total: (s._sum.age_0_5 || 0) + (s._sum.age_5_17 || 0) + (s._sum.age_18_greater || 0),
       records: s._count,
-    })).sort((a, b) => b.total - a.total)
+    })).sort((a: any, b: any) => b.total - a.total)
 
     return NextResponse.json({
       success: true,
