@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
@@ -12,7 +12,8 @@
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev"
+    "db:migrate": "prisma migrate dev",
+    "db:setup": "tsx scripts/setup-production-db.ts"
   },
   "dependencies": {
     "@number-flow/react": "^0.5.10",
@@ -67,6 +68,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "@testing-library/react": "^16.1.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "fast-check": "^3.22.0"
+    "fast-check": "^3.22.0",
+    "tsx": "^4.7.0"
   }
 }
