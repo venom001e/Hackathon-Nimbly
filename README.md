@@ -136,7 +136,7 @@ Example Decisions Supported:
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ```bash
 git clone https://github.com/venom001e/Nimbly-.git

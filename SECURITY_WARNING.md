@@ -12,9 +12,9 @@ The `.env` file containing **real API keys and database credentials** was accide
 
 ---
 
-## 🔒 **IMMEDIATE ACTIONS TAKEN:**
+## IMMEDIATE ACTIONS TAKEN:
 
-### ✅ **Repository Fixed:**
+### Repository Fixed:
 1. **Removed .env from Git tracking**
 2. **Added .env to .gitignore**
 3. **Created .env.example with placeholder values**

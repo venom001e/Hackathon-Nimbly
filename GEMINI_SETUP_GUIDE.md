@@ -32,13 +32,13 @@ Your current Gemini API key has been compromised and reported as leaked. You nee
 
 ## Features of the Updated Document Verification
 
-✅ **Multi-model Support**: Automatically tries different Gemini models (2.5-flash, 2.0-flash, 2.5-pro)
-✅ **Enhanced Error Handling**: Better error messages and fallback responses
-✅ **Improved JSON Parsing**: Handles various response formats from Gemini
-✅ **Comprehensive Analysis**: 8 quality checks with detailed pattern indicators
-✅ **OCR Data Extraction**: Extracts document details like name, number, dates
-✅ **Visual Quality Score**: Interactive document quality assessment meter
-✅ **Recommendation System**: ACCEPT/REJECT/MANUAL_REVIEW recommendations
+- **Multi-model Support**: Automatically tries different Gemini models (2.5-flash, 2.0-flash, 2.5-pro)
+- **Enhanced Error Handling**: Better error messages and fallback responses
+- **Improved JSON Parsing**: Handles various response formats from Gemini
+- **Comprehensive Analysis**: 8 quality checks with detailed pattern indicators
+- **OCR Data Extraction**: Extracts document details like name, number, dates
+- **Visual Quality Score**: Interactive document quality assessment meter
+- **Recommendation System**: ACCEPT/REJECT/MANUAL_REVIEW recommendations
 
 ## Supported Document Types
 
