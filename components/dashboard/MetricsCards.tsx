@@ -142,25 +142,25 @@ export default function MetricsCards({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4 mb-6 md:mb-8">
       {metrics.map((metric, index) => (
         <div 
           key={metric.title}
           ref={el => { cardsRef.current[index] = el }}
-          className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
+          className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
           style={{ opacity: 0 }}
         >
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 md:mb-3">
             <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
               {metric.title}
             </span>
-            <div className={`p-2 rounded-lg bg-gradient-to-br ${metric.bgGradient} shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-              <metric.icon className="w-4 h-4 text-white" />
+            <div className={`p-1.5 md:p-2 rounded-lg bg-gradient-to-br ${metric.bgGradient} shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+              <metric.icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
             </div>
           </div>
           <div 
             ref={el => { countersRef.current[index] = el }}
-            className="text-2xl font-bold text-gray-900 mb-1"
+            className="text-xl md:text-2xl font-bold text-gray-900 mb-1"
           >
             {metric.displayValue}
           </div>

@@ -24,31 +24,31 @@ export default function HeroSection() {
                 {/* Main Heading */}
                 <AnimatedContent distance={30} delay={0.1} className="relative mt-8">
                     <h1 className="text-center max-w-5xl leading-tight">
-                        <span className="block font-poppins text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 tracking-tight">
+                        <span className="block font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-gray-900 tracking-tight">
                             Nimbly Enrolment
                         </span>
-                        <span className="block font-poppins text-4xl md:text-5xl lg:text-6xl font-extrabold mt-3 bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 bg-clip-text text-transparent tracking-tight">
+                        <span className="block font-poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold mt-2 md:mt-3 bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 bg-clip-text text-transparent tracking-tight">
                             Analytics Dashboard
                         </span>
                     </h1>
-                    <div className="absolute -top-5 right-0 md:right-10 hidden md:block">
+                    <div className="absolute -top-3 md:-top-5 right-0 md:right-10 hidden md:block">
                         <CustomIcon icon={SparkleIcon} dir="right" />
                     </div>
                 </AnimatedContent>
 
                 {/* Subtitle */}
                 <AnimatedContent distance={30} delay={0.2}>
-                    <p className="text-center text-lg text-gray-600 max-w-2xl mt-6 leading-relaxed">
-                        Real-time insights into enrolment patterns with AI-powered trend analysis, 
-                        anomaly detection, and predictive forecasting for smarter data-driven decisions.
+                    <p className="text-center text-base md:text-lg text-gray-600 max-w-2xl mt-4 md:mt-6 leading-relaxed px-4">
+                        Near real-time analytics support into enrolment patterns with AI-assisted statistical trend analysis, 
+                        pattern identification, and probability estimation for data-driven decision support.
                     </p>
                 </AnimatedContent>
 
                 {/* CTA Buttons */}
-                <AnimatedContent className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+                <AnimatedContent className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 mt-6 md:mt-8 px-4">
                     <Link 
                         href="/analytics" 
-                        className="group flex items-center gap-2 py-3 px-8 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-full shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all hover:scale-105"
+                        className="group flex items-center gap-2 py-3 px-6 md:px-8 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-full shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all hover:scale-105 w-full sm:w-auto justify-center"
                     >
                         <BarChart3Icon className="w-5 h-5" />
                         View Dashboard
@@ -56,7 +56,7 @@ export default function HeroSection() {
                     </Link>
                     <Link 
                         href="/chat" 
-                        className="flex items-center gap-2 py-3 px-8 bg-white text-gray-700 font-medium rounded-full border border-gray-200 hover:border-orange-200 hover:bg-orange-50 transition-all"
+                        className="flex items-center gap-2 py-3 px-6 md:px-8 bg-white text-gray-700 font-medium rounded-full border border-gray-200 hover:border-orange-200 hover:bg-orange-50 transition-all w-full sm:w-auto justify-center"
                     >
                         <BrainCircuitIcon className="w-5 h-5 text-orange-500" />
                         AI Assistant
@@ -64,8 +64,8 @@ export default function HeroSection() {
                 </AnimatedContent>
 
                 {/* Stats */}
-                <AnimatedContent delay={0.3} className="mt-16 w-full max-w-4xl">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                <AnimatedContent delay={0.3} className="mt-12 md:mt-16 w-full max-w-4xl px-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 lg:gap-8">
                         <StatCard value="10L+" label="Total Records" />
                         <StatCard value="28+" label="Regions" />
                         <StatCard value="700+" label="Data Points" />
@@ -74,20 +74,20 @@ export default function HeroSection() {
                 </AnimatedContent>
 
                 {/* Trust Indicators */}
-                <AnimatedContent delay={0.4} className="mt-12 flex flex-wrap items-center justify-center gap-6 text-gray-400">
+                <AnimatedContent delay={0.4} className="mt-8 md:mt-12 flex flex-wrap items-center justify-center gap-4 md:gap-6 text-gray-400 px-4">
                     <div className="flex items-center gap-2">
-                        <ZapIcon className="w-5 h-5" />
-                        <span className="text-sm">Lightning Fast</span>
+                        <ZapIcon className="w-4 h-4 md:w-5 md:h-5" />
+                        <span className="text-xs md:text-sm">Lightning Fast</span>
                     </div>
                     <div className="h-4 w-px bg-gray-300 hidden sm:block" />
                     <div className="flex items-center gap-2">
-                        <BarChart3Icon className="w-5 h-5" />
-                        <span className="text-sm">Real-time Analytics</span>
+                        <BarChart3Icon className="w-4 h-4 md:w-5 md:h-5" />
+                        <span className="text-xs md:text-sm">Analytics Support</span>
                     </div>
                     <div className="h-4 w-px bg-gray-300 hidden sm:block" />
                     <div className="flex items-center gap-2">
-                        <BrainCircuitIcon className="w-5 h-5" />
-                        <span className="text-sm">AI-Powered Insights</span>
+                        <BrainCircuitIcon className="w-4 h-4 md:w-5 md:h-5" />
+                        <span className="text-xs md:text-sm">AI-Powered Insights</span>
                     </div>
                 </AnimatedContent>
             </div>

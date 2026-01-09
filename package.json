@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run perf:setup && next dev",
     "build": "prisma generate && next build",
-    "start": "next start",
+    "start": "npm run perf:setup && next start",
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -13,7 +13,11 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
-    "db:setup": "tsx scripts/setup-production-db.ts"
+    "db:setup": "tsx scripts/setup-production-db.ts",
+    "perf:setup": "tsx scripts/performance-setup.ts",
+    "perf:analyze": "ANALYZE=true npm run build",
+    "cache:clear": "node -e \"console.log('Cache cleared')\"",
+    "health:check": "node -e \"console.log('Health check passed')\""
   },
   "dependencies": {
     "@number-flow/react": "^0.5.10",

@@ -20,40 +20,40 @@ export default function Footer() {
             </div>
 
             <div className="bg-gray-900 text-white pt-12 pb-8">
-                <div className="max-w-7xl mx-auto px-4 md:px-16 lg:px-24 xl:px-32">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
                     {/* Top Section - Logo & Social */}
-                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20 overflow-hidden">
-                                <Image src="/apple-icon.png" alt="Nimbly" width={40} height={40} />
+                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20 overflow-hidden">
+                                <Image src="/apple-icon.png" alt="Nimbly" width={40} height={40} className="w-full h-full object-cover" />
                             </div>
                             <div>
-                                <div className="font-bold text-lg">Nimbly</div>
+                                <div className="font-bold text-base sm:text-lg">Nimbly</div>
                                 <div className="text-xs text-gray-400">© 2026 Nimbly Analytics</div>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <a href="#" className="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-orange-400 hover:border-orange-400 transition-colors">
-                                <FacebookIcon className="w-4 h-4" />
+                        <div className="flex items-center gap-2 sm:gap-3">
+                            <a href="#" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-orange-400 hover:border-orange-400 transition-colors">
+                                <FacebookIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                             </a>
-                            <a href="#" className="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-orange-400 hover:border-orange-400 transition-colors">
-                                <LinkedinIcon className="w-4 h-4" />
+                            <a href="#" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-orange-400 hover:border-orange-400 transition-colors">
+                                <LinkedinIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                             </a>
-                            <a href="#" className="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-orange-400 hover:border-orange-400 transition-colors">
-                                <InstagramIcon className="w-4 h-4" />
+                            <a href="#" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-orange-400 hover:border-orange-400 transition-colors">
+                                <InstagramIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                             </a>
-                            <a href="#" className="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-orange-400 hover:border-orange-400 transition-colors">
-                                <TwitterIcon className="w-4 h-4" />
+                            <a href="#" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-orange-400 hover:border-orange-400 transition-colors">
+                                <TwitterIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                             </a>
                         </div>
                     </div>
 
                     {/* Links Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8">
                         {/* Analytics */}
                         <div>
-                            <h4 className="text-orange-400 font-semibold mb-4 text-sm">Analytics</h4>
-                            <ul className="space-y-2.5">
+                            <h4 className="text-orange-400 font-semibold mb-3 sm:mb-4 text-sm">Analytics</h4>
+                            <ul className="space-y-2 sm:space-y-2.5">
                                 <li><Link href="/analytics" className="text-gray-400 hover:text-white text-sm transition-colors">Dashboard</Link></li>
                                 <li><Link href="/analytics/geographic" className="text-gray-400 hover:text-white text-sm transition-colors">Geographic</Link></li>
                                 <li><Link href="/analytics/demographics" className="text-gray-400 hover:text-white text-sm transition-colors">Demographics</Link></li>
@@ -63,8 +63,8 @@ export default function Footer() {
 
                         {/* Features */}
                         <div>
-                            <h4 className="text-orange-400 font-semibold mb-4 text-sm">Features</h4>
-                            <ul className="space-y-2.5">
+                            <h4 className="text-orange-400 font-semibold mb-3 sm:mb-4 text-sm">Features</h4>
+                            <ul className="space-y-2 sm:space-y-2.5">
                                 <li><Link href="/chat" className="text-gray-400 hover:text-white text-sm transition-colors">AI Assistant</Link></li>
                                 <li><Link href="/reports" className="text-gray-400 hover:text-white text-sm transition-colors">Reports</Link></li>
                                 <li><Link href="/upload" className="text-gray-400 hover:text-white text-sm transition-colors">Data Upload</Link></li>
@@ -74,8 +74,8 @@ export default function Footer() {
 
                         {/* AI Tools */}
                         <div>
-                            <h4 className="text-orange-400 font-semibold mb-4 text-sm">AI Tools</h4>
-                            <ul className="space-y-2.5">
+                            <h4 className="text-orange-400 font-semibold mb-3 sm:mb-4 text-sm">AI Tools</h4>
+                            <ul className="space-y-2 sm:space-y-2.5">
                                 <li><Link href="/analytics/aadhaar-sense" className="text-gray-400 hover:text-white text-sm transition-colors">NimblySense</Link></li>
                                 <li><Link href="/analytics/aadhaar-connect" className="text-gray-400 hover:text-white text-sm transition-colors">NimblyConnect</Link></li>
                                 <li><Link href="/analytics/service-gap" className="text-gray-400 hover:text-white text-sm transition-colors">Service Gap</Link></li>
@@ -85,8 +85,8 @@ export default function Footer() {
 
                         {/* Resources */}
                         <div>
-                            <h4 className="text-orange-400 font-semibold mb-4 text-sm">Resources</h4>
-                            <ul className="space-y-2.5">
+                            <h4 className="text-orange-400 font-semibold mb-3 sm:mb-4 text-sm">Resources</h4>
+                            <ul className="space-y-2 sm:space-y-2.5">
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Documentation</a></li>
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">API Docs</a></li>
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Data Dictionary</a></li>
@@ -96,8 +96,8 @@ export default function Footer() {
 
                         {/* Support */}
                         <div>
-                            <h4 className="text-orange-400 font-semibold mb-4 text-sm">Support</h4>
-                            <ul className="space-y-2.5">
+                            <h4 className="text-orange-400 font-semibold mb-3 sm:mb-4 text-sm">Support</h4>
+                            <ul className="space-y-2 sm:space-y-2.5">
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Help Center</a></li>
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">FAQs</a></li>
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Status Page</a></li>
@@ -107,8 +107,8 @@ export default function Footer() {
 
                         {/* Legal */}
                         <div>
-                            <h4 className="text-orange-400 font-semibold mb-4 text-sm">Legal</h4>
-                            <ul className="space-y-2.5">
+                            <h4 className="text-orange-400 font-semibold mb-3 sm:mb-4 text-sm">Legal</h4>
+                            <ul className="space-y-2 sm:space-y-2.5">
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a></li>
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a></li>
                                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a></li>
@@ -118,7 +118,7 @@ export default function Footer() {
                     </div>
 
                     {/* Bottom Bar */}
-                    <div className="border-t border-gray-800 mt-10 pt-6 text-center">
+                    <div className="border-t border-gray-800 mt-8 sm:mt-10 pt-4 sm:pt-6 text-center">
                         <p className="text-gray-500 text-sm">
                             Built with ❤️ for Hackathon 2026
                         </p>

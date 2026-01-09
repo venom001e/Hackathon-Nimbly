@@ -88,28 +88,28 @@ export default function AgeDistributionChart({ data, loading }: AgeDistributionC
   ] : []
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-6">
-        <UsersIcon className="w-5 h-5 text-orange-500" />
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-2 mb-4 sm:mb-6">
+        <UsersIcon className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
         Age Distribution
       </h3>
 
       {loading ? (
-        <div className="h-[250px] animate-pulse bg-gray-100 rounded-lg"></div>
+        <div className="h-[200px] sm:h-[250px] animate-pulse bg-gray-100 rounded-lg"></div>
       ) : (
-        <div className="flex flex-col md:flex-row items-center gap-6">
-          <div className="w-48 h-48">
+        <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
+          <div className="w-40 h-40 sm:w-48 sm:h-48 flex-shrink-0">
             <canvas ref={chartRef}></canvas>
           </div>
           
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 w-full space-y-3">
             {ageGroups.map(group => (
-              <div key={group.label} className="flex items-center gap-3">
-                <div className={`w-3 h-3 rounded-full ${group.color}`}></div>
-                <div className="flex-1">
+              <div key={group.label} className="flex items-center gap-2 sm:gap-3">
+                <div className={`w-3 h-3 rounded-full ${group.color} flex-shrink-0`}></div>
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-gray-700">{group.label}</span>
-                    <span className="text-sm font-bold text-gray-900">{group.count.toLocaleString()}</span>
+                    <span className="text-xs sm:text-sm font-medium text-gray-700 truncate">{group.label}</span>
+                    <span className="text-xs sm:text-sm font-bold text-gray-900 ml-2">{group.count.toLocaleString()}</span>
                   </div>
                   <div className="w-full bg-gray-100 rounded-full h-2">
                     <div 

@@ -157,4 +157,12 @@ export interface AnalyticsMetrics {
     top_performing_states: Array<{state: string, count: number}>;
     anomaly_count: number;
     prediction_accuracy: number;
+    additional_insights?: {
+        age_group_distribution: Array<{
+            age_group: string;
+            count: number;
+            percentage: number;
+        }>;
+        data_quality_score: number;
+    };
 }

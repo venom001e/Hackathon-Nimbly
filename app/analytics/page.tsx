@@ -181,20 +181,20 @@ function AnalyticsContent() {
       {/* Header */}
       <div ref={headerRef} className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-40" style={{ opacity: 0 }}>
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <LayoutDashboardIcon className="w-7 h-7 text-orange-500" />
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2">
+                <LayoutDashboardIcon className="w-6 h-6 md:w-7 md:h-7 text-orange-500" />
                 Aadhaar Insights Dashboard
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-xs md:text-sm text-gray-600 mt-1">
                 Real-time analytics & predictive insights
               </p>
             </div>
             
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               {/* Tab Navigation */}
-              <div className="flex bg-gray-100 p-1 rounded-lg">
+              <div className="flex bg-gray-100 p-1 rounded-lg overflow-x-auto">
                 {[
                   { key: 'overview', label: 'Overview' },
                   { key: 'analytics', label: 'Analytics' },
@@ -203,7 +203,7 @@ function AnalyticsContent() {
                   <button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key as any)}
-                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                    className={`px-3 md:px-4 py-2 text-sm font-medium rounded-md transition-all whitespace-nowrap ${
                       activeTab === tab.key 
                         ? 'bg-white text-gray-900 shadow-sm' 
                         : 'text-gray-600 hover:text-gray-900'
@@ -215,11 +215,11 @@ function AnalyticsContent() {
               </div>
 
               {/* Filters */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 overflow-x-auto">
                 <select
                   value={selectedTimeRange}
                   onChange={(e) => setSelectedTimeRange(e.target.value)}
-                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+                  className="px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white min-w-0"
                 >
                   {timeRanges.map(range => (
                     <option key={range.value} value={range.value}>
@@ -231,12 +231,12 @@ function AnalyticsContent() {
                 <select
                   value={selectedState}
                   onChange={(e) => setSelectedState(e.target.value)}
-                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+                  className="px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white min-w-0"
                 >
                   <option value="">All States</option>
                   {statesList.map(state => (
                     <option key={state} value={state}>
-                      {state}
+                      {state.length > 15 ? state.slice(0, 12) + '...' : state}
                     </option>
                   ))}
                 </select>
@@ -244,10 +244,10 @@ function AnalyticsContent() {
                 <button
                   onClick={loadDashboardData}
                   disabled={loading}
-                  className="p-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-colors"
+                  className="p-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-colors flex-shrink-0"
                   title="Refresh Data"
                 >
-                  <RefreshCwIcon className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+                  <RefreshCwIcon className={`w-4 h-4 md:w-5 md:h-5 ${loading ? 'animate-spin' : ''}`} />
                 </button>
               </div>
             </div>

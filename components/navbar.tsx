@@ -238,7 +238,7 @@ export default function Navbar() {
                                 className="md:hidden p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" 
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                             >
-                                <MenuIcon className="w-5 h-5 text-gray-700" />
+                                {isMenuOpen ? <XIcon className="w-5 h-5 text-gray-700" /> : <MenuIcon className="w-5 h-5 text-gray-700" />}
                             </button>
                         </div>
                     </div>
@@ -247,6 +247,144 @@ export default function Navbar() {
 
             {/* Spacer for fixed header */}
             <div className="h-[72px]"></div>
+
+            {/* Mobile Menu Overlay */}
+            <div className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${
+                isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+            }`}>
+                {/* Backdrop */}
+                <div 
+                    className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                    onClick={() => setIsMenuOpen(false)}
+                />
+                
+                {/* Menu Panel */}
+                <div className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-transform duration-300 ${
+                    isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                }`}>
+                    <div className="p-6 border-b border-gray-100">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-md overflow-hidden">
+                                    <Image src="/apple-icon.png" alt="Nimbly" width={32} height={32} />
+                                </div>
+                                <div>
+                                    <div className="font-bold text-gray-900">Nimbly</div>
+                                    <div className="text-xs text-gray-500">Analytics Dashboard</div>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setIsMenuOpen(false)}
+                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            >
+                                <XIcon className="w-5 h-5 text-gray-600" />
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div className="p-6 overflow-y-auto h-full pb-32">
+                        {/* User Section */}
+                        {isAuthenticated && user ? (
+                            <div className="mb-6 p-4 bg-orange-50 rounded-xl">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
+                                        <span className="text-white text-sm font-bold">
+                                            {user.name.charAt(0).toUpperCase()}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p className="font-medium text-gray-900">{user.name}</p>
+                                        <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <Link 
+                                href="/login" 
+                                onClick={() => setIsMenuOpen(false)}
+                                className="block mb-6 p-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl text-center font-semibold"
+                            >
+                                Sign In
+                            </Link>
+                        )}
+
+                        {/* Navigation Items */}
+                        <div className="space-y-2">
+                            {navItems.map((item) => (
+                                <div key={item.name}>
+                                    {item.dropdown ? (
+                                        <div>
+                                            <button
+                                                onClick={() => toggleDropdown(item.name)}
+                                                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all ${
+                                                    openDropdown === item.name 
+                                                        ? 'bg-orange-50 text-orange-600' 
+                                                        : 'text-gray-700 hover:bg-gray-50'
+                                                }`}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <item.icon className="w-5 h-5" />
+                                                    <span className="font-medium">{item.name}</span>
+                                                </div>
+                                                <ChevronDownIcon className={`w-4 h-4 transition-transform ${
+                                                    openDropdown === item.name ? 'rotate-180' : ''
+                                                }`} />
+                                            </button>
+                                            
+                                            {openDropdown === item.name && (
+                                                <div className="mt-2 ml-8 space-y-1">
+                                                    {item.dropdown.map((subItem) => (
+                                                        <Link
+                                                            key={subItem.name}
+                                                            href={subItem.href}
+                                                            onClick={() => {
+                                                                setOpenDropdown(null)
+                                                                setIsMenuOpen(false)
+                                                            }}
+                                                            className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange-50 transition-colors"
+                                                        >
+                                                            <div className="p-1.5 bg-orange-100 rounded-lg">
+                                                                <subItem.icon className="w-4 h-4 text-orange-600" />
+                                                            </div>
+                                                            <div>
+                                                                <p className="font-medium text-gray-900 text-sm">{subItem.name}</p>
+                                                                <p className="text-xs text-gray-500">{subItem.desc}</p>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <Link 
+                                            href={item.href!}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="flex items-center gap-3 p-3 text-gray-700 hover:bg-gray-50 rounded-xl transition-all"
+                                        >
+                                            <item.icon className="w-5 h-5" />
+                                            <span className="font-medium">{item.name}</span>
+                                        </Link>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Logout Button for Mobile */}
+                        {isAuthenticated && (
+                            <button
+                                onClick={() => {
+                                    logout()
+                                    setIsMenuOpen(false)
+                                }}
+                                className="w-full mt-6 flex items-center gap-3 p-3 text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                            >
+                                <LogOutIcon className="w-5 h-5" />
+                                <span className="font-medium">Sign Out</span>
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
 
             {/* Mobile Menu Overlay */}
             <div 

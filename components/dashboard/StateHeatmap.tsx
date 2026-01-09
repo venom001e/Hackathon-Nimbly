@@ -105,7 +105,7 @@ export default function StateHeatmap({ data, loading, onStateSelect }: StateHeat
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 mb-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 mb-6">
             {data.slice(0, 36).map((item, index) => {
               const count = item.count || item.totalEnrolments || 0
               const isSelected = selectedState === item.state
@@ -119,7 +119,7 @@ export default function StateHeatmap({ data, loading, onStateSelect }: StateHeat
                   onMouseEnter={() => setHoveredState(item.state)}
                   onMouseLeave={() => setHoveredState(null)}
                   className={`
-                    relative p-2 rounded-lg transition-all duration-200 text-center
+                    relative p-2 md:p-3 rounded-lg transition-all duration-200 text-center
                     ${getHeatColor(count)}
                     ${isSelected ? 'ring-2 ring-orange-600 ring-offset-2 scale-105' : ''}
                     ${isHovered ? 'scale-105 shadow-lg' : ''}
@@ -127,10 +127,10 @@ export default function StateHeatmap({ data, loading, onStateSelect }: StateHeat
                   `}
                   style={{ opacity: 0 }}
                 >
-                  <div className="text-[10px] font-medium truncate">
-                    {item.state.length > 12 ? item.state.slice(0, 10) + '..' : item.state}
+                  <div className="text-[9px] md:text-[10px] font-medium truncate">
+                    {item.state.length > 10 ? item.state.slice(0, 8) + '..' : item.state}
                   </div>
-                  <div className="text-xs font-bold mt-1">
+                  <div className="text-xs md:text-sm font-bold mt-1">
                     {count >= 1000000 
                       ? (count / 1000000).toFixed(1) + 'M'
                       : count >= 1000 

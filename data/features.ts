@@ -10,7 +10,7 @@ export const features: IFeature[] = [
     {
         title: "AadhaarSense AI",
         description:
-            "AI-powered anomaly detection system that identifies unusual patterns, predicts crisis zones, and provides intelligent resource allocation suggestions using real enrolment data.",
+            "AI-assisted pattern identification system that analyzes statistical trends, identifies unusual patterns, and provides advisory resource allocation recommendations using enrolment data.",
         icon: BrainCircuitIcon,
         cardBg: "bg-purple-50",
         iconBg: "bg-purple-500",
@@ -19,7 +19,7 @@ export const features: IFeature[] = [
     {
         title: "DocScan AI",
         description:
-            "Advanced document verification system using Gemini Vision API to detect fake/tampered Aadhaar documents with fraud scoring, OCR extraction, and security analysis.",
+            "AI-assisted document quality assessment system using Gemini Vision API for document analysis with quality scoring, OCR extraction, and security pattern identification.",
         icon: ScanIcon,
         cardBg: "bg-red-50",
         iconBg: "bg-red-500",
@@ -28,16 +28,16 @@ export const features: IFeature[] = [
     {
         title: "Service Gap Identifier",
         description:
-            "Identify underserved areas with interactive heat maps, priority rankings, and AI recommendations for optimal enrolment center placement across India.",
+            "Identify underserved areas with interactive heat maps, priority rankings, and AI-assisted recommendations for enrolment center placement optimization.",
         icon: MapIcon,
         cardBg: "bg-amber-50",
         iconBg: "bg-amber-500",
         href: "/analytics/service-gap"
     },
     {
-        title: "Predictive Analytics",
+        title: "Statistical Trend Analysis",
         description:
-            "AI-powered forecasting using exponential smoothing to predict future enrolment trends with confidence bands, growth rates, and seasonal pattern detection.",
+            "AI-assisted probability estimation using statistical methods to analyze enrolment trends with confidence intervals, growth rates, and seasonal pattern identification.",
         icon: TrendingUpIcon,
         cardBg: "bg-green-50",
         iconBg: "bg-green-500",
@@ -68,7 +68,7 @@ export const additionalFeatures: IFeature[] = [
     {
         title: "AadhaarConnect",
         description:
-            "Gamified citizen engagement platform with achievements, leaderboards, and rewards to encourage Nimbly enrolment and updates across communities.",
+            "Prototype citizen engagement platform with achievements, leaderboards, and rewards to encourage Aadhaar enrolment and updates across communities.",
         icon: TrophyIcon,
         cardBg: "bg-yellow-50",
         iconBg: "bg-yellow-500",
@@ -77,7 +77,7 @@ export const additionalFeatures: IFeature[] = [
     {
         title: "AI Chat Assistant",
         description:
-            "Intelligent chatbot powered by Gemini AI to answer queries about Nimbly EnrolmentAnalytics, provide insights, and help navigate the dashboard features.",
+            "AI-assisted chatbot powered by Gemini AI to answer queries about Aadhaar EnrolmentAnalytics, provide decision-support insights, and help navigate dashboard features.",
         icon: MessageSquareIcon,
         cardBg: "bg-indigo-50",
         iconBg: "bg-indigo-500",
@@ -86,25 +86,25 @@ export const additionalFeatures: IFeature[] = [
     {
         title: "Report Generator",
         description:
-            "Generate comprehensive PDF/Excel reports with customizable date ranges, state filters, and detailed analytics summaries for official documentation.",
+            "Generate comprehensive PDF/Excel reports with customizable date ranges, state filters, and detailed analytics summaries for decision-support documentation.",
         icon: FileTextIcon,
         cardBg: "bg-slate-50",
         iconBg: "bg-slate-500",
         href: "/reports"
     },
     {
-        title: "Real-time Dashboard",
+        title: "Analytics Dashboard",
         description:
-            "Central analytics hub with live metrics, trend charts, anomaly alerts, and quick access to all features - processing 10L+ records with instant insights.",
+            "Central analytics hub with near real-time metrics, trend charts, advisory alerts, and quick access to all features - processing 10L+ records with batch insights.",
         icon: BarChart3Icon,
         cardBg: "bg-orange-50",
         iconBg: "bg-orange-500",
         href: "/analytics"
     },
     {
-        title: "Smart Alerts",
+        title: "Advisory Alerts",
         description:
-            "Configurable alert system that monitors enrolment patterns and notifies administrators about anomalies, threshold breaches, and critical events.",
+            "Configurable notification system that monitors enrolment patterns and provides advisory notifications about anomalies, threshold breaches, and critical events.",
         icon: AlertTriangleIcon,
         cardBg: "bg-rose-50",
         iconBg: "bg-rose-500",

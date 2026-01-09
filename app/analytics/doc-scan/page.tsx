@@ -21,7 +21,7 @@ interface SecurityCheck {
   details: string
 }
 
-interface FraudIndicator {
+interface QualityIndicator {
   type: string
   severity: 'high' | 'medium' | 'low'
   description: string
@@ -39,14 +39,14 @@ interface ExtractedData {
 }
 
 interface AnalysisResult {
-  isGenuine: boolean
+  isGoodQuality: boolean
   confidenceScore: number
-  fraudScore: number
-  verdict: 'GENUINE' | 'FAKE' | 'SUSPICIOUS'
+  qualityScore: number
+  verdict: 'GOOD_QUALITY' | 'POOR_QUALITY' | 'SUSPICIOUS'
   documentType: string
   extractedData: ExtractedData
-  securityChecks: SecurityCheck[]
-  fraudIndicators: FraudIndicator[]
+  qualityChecks: SecurityCheck[]
+  qualityIndicators: QualityIndicator[]
   recommendation: 'ACCEPT' | 'REJECT' | 'MANUAL_REVIEW'
   summary: string
   detailedAnalysis: string
@@ -124,6 +124,11 @@ export default function DocScanPage() {
       }
 
       setResult(data.analysis)
+      
+      // Show mock response notification if applicable
+      if (data.isMockResponse) {
+        console.log('🔄 Mock response received - Add real Gemini API key for actual analysis')
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to analyze document')
     } finally {
@@ -168,7 +173,7 @@ export default function DocScanPage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                AI Document Verification
+                AI Document Quality Assessment
               </h1>
               <p className="text-gray-600">Powered by Google Gemini Vision AI</p>
             </div>
@@ -179,7 +184,7 @@ export default function DocScanPage() {
               AI Active
             </span>
             <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
-              Real-time Analysis
+              Quality Analysis
             </span>
             <span className="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-medium rounded-full">
               Gemini Vision
@@ -311,7 +316,7 @@ export default function DocScanPage() {
               <div className="space-y-2 text-sm text-slate-300">
                 <div className="flex items-center gap-2">
                   <CheckIcon className="w-4 h-4 text-green-400" />
-                  <span>Real-time fraud detection</span>
+                  <span>AI-assisted quality assessment</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckIcon className="w-4 h-4 text-green-400" />
@@ -338,12 +343,12 @@ export default function DocScanPage() {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Ready to Verify</h3>
                 <p className="text-gray-500 max-w-md mx-auto">
-                  Upload a document image and click "Verify Document" to start AI-powered authenticity analysis
+                  Upload a document image and click "Assess Document" to start AI-assisted quality analysis
                 </p>
                 <div className="flex items-center justify-center gap-6 mt-8 text-sm text-gray-400">
                   <div className="flex items-center gap-2">
                     <ShieldCheckIcon className="w-5 h-5" />
-                    <span>Fraud Detection</span>
+                    <span>Quality Assessment</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <SparklesIcon className="w-5 h-5" />
@@ -379,39 +384,39 @@ export default function DocScanPage() {
               <div className="space-y-6">
                 {/* Main Verdict Card */}
                 <div className={`rounded-2xl p-6 border-2 ${
-                  result.verdict === 'GENUINE' 
+                  result.verdict === 'GOOD_QUALITY' 
                     ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-300' 
-                    : result.verdict === 'FAKE' 
+                    : result.verdict === 'POOR_QUALITY' 
                     ? 'bg-gradient-to-br from-red-50 to-rose-50 border-red-300'
                     : 'bg-gradient-to-br from-yellow-50 to-amber-50 border-yellow-300'
                 }`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className={`p-4 rounded-2xl ${
-                        result.verdict === 'GENUINE' 
+                        result.verdict === 'GOOD_QUALITY' 
                           ? 'bg-green-100' 
-                          : result.verdict === 'FAKE' 
+                          : result.verdict === 'POOR_QUALITY' 
                           ? 'bg-red-100'
                           : 'bg-yellow-100'
                       }`}>
-                        {result.verdict === 'GENUINE' ? (
+                        {result.verdict === 'GOOD_QUALITY' ? (
                           <ShieldCheckIcon className={`w-10 h-10 text-green-600`} />
-                        ) : result.verdict === 'FAKE' ? (
+                        ) : result.verdict === 'POOR_QUALITY' ? (
                           <ShieldAlertIcon className={`w-10 h-10 text-red-600`} />
                         ) : (
                           <AlertTriangleIcon className={`w-10 h-10 text-yellow-600`} />
                         )}
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600 font-medium">Verification Result</p>
+                        <p className="text-sm text-gray-600 font-medium">Quality Assessment Result</p>
                         <h2 className={`text-3xl font-bold ${
-                          result.verdict === 'GENUINE' 
+                          result.verdict === 'GOOD_QUALITY' 
                             ? 'text-green-700' 
-                            : result.verdict === 'FAKE' 
+                            : result.verdict === 'POOR_QUALITY' 
                             ? 'text-red-700'
                             : 'text-yellow-700'
                         }`}>
-                          {result.verdict}
+                          {result.verdict.replace('_', ' ')}
                         </h2>
                         <p className="text-sm text-gray-500 mt-1">{result.documentType}</p>
                       </div>
@@ -432,16 +437,16 @@ export default function DocScanPage() {
                 <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                   <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <AlertTriangleIcon className="w-5 h-5 text-orange-500" />
-                    Fraud Risk Score
+                    Quality Risk Score
                   </h3>
                   <div className="relative h-6 bg-gradient-to-r from-green-200 via-yellow-200 to-red-200 rounded-full overflow-hidden">
                     <div 
                       className="absolute top-0 left-0 h-full bg-black/20 transition-all duration-500"
-                      style={{ width: `${result.fraudScore}%` }}
+                      style={{ width: `${result.qualityScore}%` }}
                     />
                     <div 
                       className="absolute top-1/2 -translate-y-1/2 w-4 h-8 bg-white border-2 border-gray-800 rounded-full shadow-lg transition-all duration-500"
-                      style={{ left: `calc(${result.fraudScore}% - 8px)` }}
+                      style={{ left: `calc(${result.qualityScore}% - 8px)` }}
                     />
                   </div>
                   <div className="flex justify-between mt-2 text-xs text-gray-500">
@@ -451,12 +456,12 @@ export default function DocScanPage() {
                   </div>
                   <p className="mt-4 text-center">
                     <span className={`text-2xl font-bold ${
-                      result.fraudScore <= 30 ? 'text-green-600' : 
-                      result.fraudScore <= 60 ? 'text-yellow-600' : 'text-red-600'
+                      result.qualityScore <= 30 ? 'text-green-600' : 
+                      result.qualityScore <= 60 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
-                      {result.fraudScore}%
+                      {result.qualityScore}%
                     </span>
-                    <span className="text-gray-500 ml-2">Fraud Probability</span>
+                    <span className="text-gray-500 ml-2">Quality Risk</span>
                   </p>
                 </div>
 
@@ -501,7 +506,7 @@ export default function DocScanPage() {
                     Security Checks
                   </h3>
                   <div className="space-y-3">
-                    {result.securityChecks.map((check, idx) => (
+                    {result.qualityChecks.map((check, idx) => (
                       <div key={idx} className={`p-4 rounded-xl border ${getStatusColor(check.status)}`}>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
@@ -521,15 +526,15 @@ export default function DocScanPage() {
                   </div>
                 </div>
 
-                {/* Fraud Indicators */}
-                {result.fraudIndicators && result.fraudIndicators.length > 0 && (
+                {/* Quality Indicators */}
+                {result.qualityIndicators && result.qualityIndicators.length > 0 && (
                   <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                     <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                       <AlertOctagonIcon className="w-5 h-5 text-red-500" />
-                      Fraud Indicators Detected
+                      Quality Issues Detected
                     </h3>
                     <div className="space-y-3">
-                      {result.fraudIndicators.map((indicator, idx) => (
+                      {result.qualityIndicators.map((indicator, idx) => (
                         <div key={idx} className={`p-4 rounded-xl border ${
                           indicator.severity === 'high' 
                             ? 'bg-red-50 border-red-200' 
@@ -590,9 +595,9 @@ export default function DocScanPage() {
                         </p>
                         <p className="text-sm opacity-80">
                           {result.recommendation === 'ACCEPT' 
-                            ? 'Document appears to be genuine and can be accepted' 
+                            ? 'Document appears to be of good quality and can be accepted' 
                             : result.recommendation === 'REJECT'
-                            ? 'Document shows signs of fraud and should be rejected'
+                            ? 'Document shows quality issues and should be rejected'
                             : 'Document requires manual verification by an officer'}
                         </p>
                       </div>

@@ -99,8 +99,8 @@ export default function TrendChart({ data, title, loading }: TrendChartProps) {
             },
             ticks: {
               color: '#9ca3af',
-              font: { size: 11 },
-              maxTicksLimit: 10
+              font: { size: window.innerWidth < 640 ? 9 : 11 },
+              maxTicksLimit: window.innerWidth < 640 ? 6 : 10
             }
           },
           y: {
@@ -109,7 +109,7 @@ export default function TrendChart({ data, title, loading }: TrendChartProps) {
             },
             ticks: {
               color: '#9ca3af',
-              font: { size: 11 },
+              font: { size: window.innerWidth < 640 ? 9 : 11 },
               callback: (value) => {
                 if (typeof value === 'number') {
                   if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M'
@@ -137,11 +137,11 @@ export default function TrendChart({ data, title, loading }: TrendChartProps) {
   return (
     <div 
       ref={containerRef}
-      className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-shadow duration-300"
+      className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 hover:shadow-lg transition-shadow duration-300"
       style={{ opacity: 0 }}
     >
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
-      <div className="h-[300px]">
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">{title}</h3>
+      <div className="h-[250px] sm:h-[300px]">
         <canvas ref={chartRef}></canvas>
       </div>
     </div>
