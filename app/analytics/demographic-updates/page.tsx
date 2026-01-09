@@ -103,10 +103,10 @@ export default function DemographicUpdatesPage() {
       {metrics && (
         <MetricsCards 
           totalEnrolments={metrics.total_updates}
-          dailyGrowthRate={15.3}
-          anomalyCount={metrics.pending_updates}
-          predictionAccuracy={metrics.success_rate}
-          uniqueStates={28}
+          growthRate={15.3}
+          anomalies={metrics.pending_updates}
+          accuracy={metrics.success_rate}
+          states={28}
           loading={false}
         />
       )}

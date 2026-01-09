@@ -290,10 +290,10 @@ function AnalyticsContent() {
             {/* Metrics Cards */}
             <MetricsCards
               totalEnrolments={metrics?.total_enrolments || 0}
-              dailyGrowthRate={metrics?.daily_growth_rate || 0}
-              anomalyCount={anomalies.filter(a => a.severity === 'high').length}
-              predictionAccuracy={metrics?.prediction_accuracy || 0}
-              uniqueStates={csvMetrics?.unique_states || 0}
+              growthRate={metrics?.daily_growth_rate || 0}
+              anomalies={anomalies.filter(a => a.severity === 'high').length}
+              accuracy={metrics?.prediction_accuracy || 0}
+              states={csvMetrics?.unique_states || 0}
               loading={loading}
             />
 

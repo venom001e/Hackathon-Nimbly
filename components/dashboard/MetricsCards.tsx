@@ -38,28 +38,28 @@ export default function MetricsCards({
     },
     {
       title: 'Daily Growth Rate',
-      value: dailyGrowthRate || 0,
-      displayValue: `${dailyGrowthRate?.toFixed(2) || '0'}%`,
+      value: growthRate || 0,
+      displayValue: `${growthRate?.toFixed(2) || '0'}%`,
       icon: TrendingUpIcon,
       color: 'green',
       bgGradient: 'from-green-500 to-green-600',
-      change: dailyGrowthRate > 0 ? 'Growing' : 'Declining',
-      changeType: dailyGrowthRate > 0 ? 'positive' : 'negative'
+      change: growthRate > 0 ? 'Growing' : 'Declining',
+      changeType: growthRate > 0 ? 'positive' : 'negative'
     },
     {
       title: 'Active Anomalies',
-      value: anomalyCount || 0,
-      displayValue: anomalyCount?.toString() || '0',
+      value: anomalies || 0,
+      displayValue: anomalies?.toString() || '0',
       icon: AlertTriangleIcon,
       color: 'red',
       bgGradient: 'from-red-500 to-red-600',
-      change: anomalyCount > 0 ? 'Needs Review' : 'All Clear',
-      changeType: anomalyCount > 0 ? 'negative' : 'positive'
+      change: anomalies > 0 ? 'Needs Review' : 'All Clear',
+      changeType: anomalies > 0 ? 'negative' : 'positive'
     },
     {
       title: 'Prediction Accuracy',
-      value: predictionAccuracy || 0,
-      displayValue: `${predictionAccuracy?.toFixed(1) || '0'}%`,
+      value: accuracy || 0,
+      displayValue: `${accuracy?.toFixed(1) || '0'}%`,
       icon: BarChart3Icon,
       color: 'purple',
       bgGradient: 'from-purple-500 to-purple-600',
@@ -68,8 +68,8 @@ export default function MetricsCards({
     },
     {
       title: 'States Covered',
-      value: uniqueStates || 0,
-      displayValue: uniqueStates?.toString() || '0',
+      value: states || 0,
+      displayValue: states?.toString() || '0',
       icon: MapPinIcon,
       color: 'orange',
       bgGradient: 'from-orange-500 to-orange-600',
@@ -129,7 +129,7 @@ export default function MetricsCards({
         }
       })
     }
-  }, [loading, totalEnrolments, dailyGrowthRate, anomalyCount, predictionAccuracy, uniqueStates])
+  }, [loading, totalEnrolments, growthRate, anomalies, accuracy, states])
 
   if (loading) {
     return (

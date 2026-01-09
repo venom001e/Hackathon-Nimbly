@@ -107,10 +107,10 @@ export default function BiometricUpdatesPage() {
       {metrics && (
         <MetricsCards 
           totalEnrolments={metrics.total_updates}
-          dailyGrowthRate={18.2}
-          anomalyCount={Math.round(metrics.total_updates * 0.05)}
-          predictionAccuracy={metrics.success_rate}
-          uniqueStates={28}
+          growthRate={18.2}
+          anomalies={Math.round(metrics.total_updates * 0.05)}
+          accuracy={metrics.success_rate}
+          states={28}
           loading={false}
         />
       )}

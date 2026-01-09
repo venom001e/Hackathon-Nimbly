@@ -106,10 +106,10 @@ export default function EnrolmentDataPage() {
       {metrics && (
         <MetricsCards 
           totalEnrolments={metrics.total_enrolments}
-          dailyGrowthRate={metrics.growth_rate}
-          anomalyCount={0}
-          predictionAccuracy={metrics.completion_rate}
-          uniqueStates={28}
+          growthRate={metrics.growth_rate}
+          anomalies={0}
+          accuracy={metrics.completion_rate}
+          states={28}
           loading={false}
         />
       )}
