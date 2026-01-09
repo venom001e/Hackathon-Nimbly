@@ -2,52 +2,52 @@
   <img src="public/apple-icon.png" alt="Nimbly Logo" width="80" height="80">
 </p>
 
-<h1 align="center">🚀 Nimbly</h1>
+<h1 align="center">Nimbly</h1>
 
 <p align="center">
-  <strong>AI-Assisted Aadhaar Enrolment Analytics & Decision Support Platform</strong>
+  <strong>Aadhaar Analytics Dashboard</strong>
 </p>
 
 <p align="center">
-  <em>A hackathon prototype designed to support UIDAI officers with data-driven insights, trend analysis, and policy-oriented decision intelligence</em>
+  <em>Hackathon project for analyzing UIDAI enrolment data with trend analysis and insights</em>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/UIDAI_Data-Hackathon_Provided-blue?style=for-the-badge&logo=government" alt="UIDAI Dataset">
+  <img src="https://img.shields.io/badge/UIDAI_Data-Hackathon-blue?style=for-the-badge" alt="UIDAI Dataset">
   <img src="https://img.shields.io/badge/Next.js-16.1-black?style=for-the-badge&logo=next.js" alt="Next.js">
-  <img src="https://img.shields.io/badge/AI-Assisted_Analytics-Gemini-orange?style=for-the-badge&logo=google" alt="AI Assisted">
+  <img src="https://img.shields.io/badge/Analytics-Dashboard-orange?style=for-the-badge" alt="Analytics">
 </p>
 
 ---
 
-## 🎯 Problem Statement (UIDAI Hackathon)
+## Problem Statement
 
-UIDAI manages Aadhaar enrolment and update operations across diverse geographies and demographics. At scale, decision-makers face challenges such as:
+UIDAI manages Aadhaar enrolment across different regions and demographics. Key challenges include:
 
-* Uneven Aadhaar enrolment across districts
-* Delays and backlogs in update operations
-* Demographic coverage gaps (age-wise and region-wise)
-* Difficulty in prioritising districts for enrolment drives
-* Limited analytical tools for forward-looking planning
+* Uneven enrolment distribution across districts
+* Delays in update operations
+* Coverage gaps in different age groups and regions
+* Difficulty prioritizing districts for enrolment drives
+* Limited tools for data-driven planning
 
-**Nimbly** is a hackathon prototype that demonstrates how **official UIDAI enrolment datasets** can be analysed to generate **actionable, district-level insights** that assist UIDAI officers in operational and policy decisions.
+**Nimbly** analyzes UIDAI enrolment datasets to provide district-level insights for operational decisions.
 
 ---
 
-## 🧠 Solution Overview
+## What it does
 
-Nimbly is an **AI-assisted analytics dashboard** that converts UIDAI enrolment data into clear insights using a combination of:
+Analytics dashboard that processes UIDAI enrolment data using:
 
 * Statistical analysis
-* Machine-learning–assisted pattern detection
-* Time-series trend estimation
-* Rule-based and data-driven recommendations
+* Pattern detection
+* Trend estimation
+* Data-driven recommendations
 
-> ⚠️ This system is a **decision-support prototype** and does not replace any official UIDAI systems or verification processes.
+> Note: This is a prototype for decision support, not a replacement for official UIDAI systems.
 
 ---
 
-## 📊 UIDAI Official Dataset Usage
+## Dataset Usage
 
 This project uses **only the UIDAI datasets provided for the hackathon**.
 

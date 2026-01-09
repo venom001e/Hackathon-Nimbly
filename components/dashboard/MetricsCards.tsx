@@ -7,19 +7,19 @@ import { MetricCardSkeleton } from '@/components/ui/loading-animations'
 
 interface MetricsCardsProps {
   totalEnrolments: number
-  dailyGrowthRate: number
-  anomalyCount: number
-  predictionAccuracy: number
-  uniqueStates: number
+  growthRate: number
+  anomalies: number
+  accuracy: number
+  states: number
   loading: boolean
 }
 
 export default function MetricsCards({ 
   totalEnrolments, 
-  dailyGrowthRate, 
-  anomalyCount, 
-  predictionAccuracy,
-  uniqueStates,
+  growthRate, 
+  anomalies, 
+  accuracy,
+  states,
   loading 
 }: MetricsCardsProps) {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([])

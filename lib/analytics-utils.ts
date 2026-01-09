@@ -14,7 +14,7 @@ export class AnalyticsUtils {
     return (value - mean) / stdDev
   }
 
-  // Trend analysis functions
+  // trend detection - could be improved with better algorithms
   static detectTrendDirection(values: number[]): 'increasing' | 'decreasing' | 'stable' {
     if (values.length < 2) return 'stable'
     
@@ -32,7 +32,7 @@ export class AnalyticsUtils {
     return 'stable'
   }
 
-  // Anomaly detection functions
+  // basic anomaly detection using z-score
   static detectAnomaliesZScore(values: number[], threshold: number = 2.5): number[] {
     const mean = this.calculateMean(values)
     const stdDev = this.calculateStandardDeviation(values)
@@ -43,7 +43,7 @@ export class AnalyticsUtils {
       .map((item: any) => item.index)
   }
 
-  // Seasonal pattern detection
+  // TODO: improve seasonal pattern detection
   static detectSeasonalPattern(values: number[], period: number = 12): {
     hasPattern: boolean;
     amplitude: number;

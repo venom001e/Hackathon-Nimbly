@@ -25,6 +25,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('Error Boundary caught an error:', error, errorInfo)
+    // TODO: send error to logging service
   }
 
   resetError = () => {
@@ -43,10 +44,10 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
           <div className="text-center max-w-md">
             <AlertTriangleIcon className="w-16 h-16 text-red-500 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Something went wrong
+              Oops, something broke
             </h2>
             <p className="text-gray-600 mb-4">
-              An error occurred while loading this component. Please try refreshing the page.
+              This component crashed. Try refreshing or check the console for details.
             </p>
             <button
               onClick={this.resetError}

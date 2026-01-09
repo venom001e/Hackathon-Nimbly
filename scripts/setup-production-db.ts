@@ -11,25 +11,25 @@ const prisma = new PrismaClient()
 
 async function setupProductionDatabase() {
   try {
-    console.log('🚀 Setting up production database...')
+    console.log('Setting up production database...')
 
     // Test database connection
-    console.log('📡 Testing database connection...')
+    console.log('Testing database connection...')
     await prisma.$connect()
-    console.log('✅ Database connection successful')
+    console.log('Database connection successful')
 
     // Check if tables exist by trying to count records
     try {
       const userCount = await prisma.user.count()
-      console.log(`📊 Found ${userCount} users in database`)
+      console.log(`Found ${userCount} users in database`)
     } catch (error) {
-      console.log('⚠️  Database tables may not exist. This is normal for first deployment.')
+      console.log('Database tables may not exist. This is normal for first deployment.')
     }
 
     // Create a default admin user if none exists
     const existingUsers = await prisma.user.count()
     if (existingUsers === 0) {
-      console.log('👤 Creating default admin user...')
+      console.log('Creating default admin user...')
       
       const bcrypt = require('bcryptjs')
       const hashedPassword = await bcrypt.hash('admin123', 10)
@@ -43,9 +43,9 @@ async function setupProductionDatabase() {
           permissions: JSON.stringify(['read', 'write', 'admin'])
         }
       })
-      console.log('✅ Default admin user created')
-      console.log('📧 Email: admin@aadhaar-analytics.com')
-      console.log('🔑 Password: admin123')
+      console.log('Default admin user created')
+      console.log('Email: admin@aadhaar-analytics.com')
+      console.log('Password: admin123')
     }
 
     // Create sample data if database is empty

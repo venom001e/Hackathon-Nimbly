@@ -1,5 +1,5 @@
-// Dummy Authentication System
-// Demo credentials for testing
+// temp auth system for demo
+// using hardcoded users for now
 
 export interface User {
   id: string
@@ -9,7 +9,7 @@ export interface User {
   email: string
 }
 
-// Dummy users database
+// demo users - replace with real auth later
 export const DUMMY_USERS: { username: string; password: string; user: User }[] = [
   {
     username: 'admin',

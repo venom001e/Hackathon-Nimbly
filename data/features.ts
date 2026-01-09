@@ -8,45 +8,45 @@ import { IFeature } from "../types";
 // Main AI Features (Left section - sticky scrollable)
 export const features: IFeature[] = [
     {
-        title: "AadhaarSense AI",
+        title: "AadhaarSense",
         description:
-            "AI-assisted pattern identification system that analyzes statistical trends, identifies unusual patterns, and provides advisory resource allocation recommendations using enrolment data.",
+            "Pattern analysis system that looks at trends in enrolment data and suggests where to focus resources based on statistical analysis.",
         icon: BrainCircuitIcon,
         cardBg: "bg-purple-50",
         iconBg: "bg-purple-500",
         href: "/analytics/aadhaar-sense"
     },
     {
-        title: "DocScan AI",
+        title: "DocScan",
         description:
-            "AI-assisted document quality assessment system using Gemini Vision API for document analysis with quality scoring, OCR extraction, and security pattern identification.",
+            "Document quality checker using Gemini Vision API. Analyzes document images and gives quality scores with OCR text extraction.",
         icon: ScanIcon,
         cardBg: "bg-red-50",
         iconBg: "bg-red-500",
         href: "/analytics/doc-scan"
     },
     {
-        title: "Service Gap Identifier",
+        title: "Service Gap Analysis",
         description:
-            "Identify underserved areas with interactive heat maps, priority rankings, and AI-assisted recommendations for enrolment center placement optimization.",
+            "Find areas that need more enrolment centers. Shows heat maps and suggests where to place new centers based on population data.",
         icon: MapIcon,
         cardBg: "bg-amber-50",
         iconBg: "bg-amber-500",
         href: "/analytics/service-gap"
     },
     {
-        title: "Statistical Trend Analysis",
+        title: "Trend Analysis",
         description:
-            "AI-assisted probability estimation using statistical methods to analyze enrolment trends with confidence intervals, growth rates, and seasonal pattern identification.",
+            "Statistical analysis of enrolment trends over time. Shows growth rates, seasonal patterns, and confidence intervals for predictions.",
         icon: TrendingUpIcon,
         cardBg: "bg-green-50",
         iconBg: "bg-green-500",
         href: "/analytics/predictions"
     },
     {
-        title: "Geographic Analysis",
+        title: "Geographic View",
         description:
-            "Interactive state-wise heatmap with drill-down to district level, age distribution analysis, and comparative insights across all 28+ states and UTs.",
+            "State-wise data visualization with drill-down to districts. Shows age distribution and comparisons across different regions.",
         icon: MapPinIcon,
         cardBg: "bg-blue-50",
         iconBg: "bg-blue-500",

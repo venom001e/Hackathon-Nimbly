@@ -1,5 +1,5 @@
-// Direct CSV File Data Loader - No Database Required
-// Loads data directly from api_data_aadhar_enrolment folder
+// CSV data loader for aadhaar enrolment files
+// TODO: add better error handling for missing files
 
 import * as fs from 'fs'
 import * as path from 'path'

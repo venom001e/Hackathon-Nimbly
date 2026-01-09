@@ -15,20 +15,20 @@ export default function HeroSection() {
                 <AnimatedContent reverse distance={30} className="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-orange-100">
                     <div className="flex items-center gap-1 text-orange-600">
                         <ZapIcon className="w-4 h-4" />
-                        <span className="text-sm font-medium">Hackathon Project 2026</span>
+                        <span className="text-sm font-medium">Hackathon 2026</span>
                     </div>
                     <div className="h-4 w-px bg-gray-300" />
-                    <span className="text-sm text-gray-600">AI-Powered Analytics</span>
+                    <span className="text-sm text-gray-600">Analytics Dashboard</span>
                 </AnimatedContent>
 
                 {/* Main Heading */}
                 <AnimatedContent distance={30} delay={0.1} className="relative mt-8">
                     <h1 className="text-center max-w-5xl leading-tight">
                         <span className="block font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-gray-900 tracking-tight">
-                            Nimbly Enrolment
+                            Nimbly Analytics
                         </span>
                         <span className="block font-poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold mt-2 md:mt-3 bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 bg-clip-text text-transparent tracking-tight">
-                            Analytics Dashboard
+                            Dashboard
                         </span>
                     </h1>
                     <div className="absolute -top-3 md:-top-5 right-0 md:right-10 hidden md:block">
@@ -39,8 +39,8 @@ export default function HeroSection() {
                 {/* Subtitle */}
                 <AnimatedContent distance={30} delay={0.2}>
                     <p className="text-center text-base md:text-lg text-gray-600 max-w-2xl mt-4 md:mt-6 leading-relaxed px-4">
-                        Near real-time analytics support into enrolment patterns with AI-assisted statistical trend analysis, 
-                        pattern identification, and probability estimation for data-driven decision support.
+                        Analytics dashboard for aadhaar enrolment data with trend analysis, 
+                        pattern detection, and insights for better decision making.
                     </p>
                 </AnimatedContent>
 
