@@ -44,5 +44,9 @@ export const links: ILink[] = [
     {
         name: "Reports",
         href: "/reports",
+    },
+    {
+        name: "Documentation",
+        href: "/docs",
     }
 ];
