@@ -6,13 +6,10 @@ import {
   ChevronRightIcon, RefreshCwIcon, FileTextIcon, ZapIcon,
   ShieldCheckIcon, ShieldAlertIcon, ScanIcon, SparklesIcon, 
   BrainCircuitIcon, AlertOctagonIcon, CheckIcon,
-  CreditCardIcon, FileIcon, CarIcon, GlobeIcon, BuildingIcon,
   UserIcon, CalendarIcon, HashIcon, MapPinIcon,
-  Loader2Icon, CameraIcon, UploadCloudIcon
+  Loader2Icon, CameraIcon, UploadCloudIcon, BuildingIcon
 } from 'lucide-react'
 import Link from 'next/link'
-
-type DocumentType = 'PAN Card' | 'Voter ID' | 'Passport' | 'Driving License' | 'Ration Card' | 'Other'
 
 interface SecurityCheck {
   name: string
@@ -52,18 +49,8 @@ interface AnalysisResult {
   detailedAnalysis: string
 }
 
-const documentTypes: { key: DocumentType; label: string; icon: typeof CreditCardIcon; color: string }[] = [
-  { key: 'PAN Card', label: 'PAN Card', icon: CreditCardIcon, color: 'bg-blue-100 text-blue-600 border-blue-200' },
-  { key: 'Voter ID', label: 'Voter ID (EPIC)', icon: FileIcon, color: 'bg-purple-100 text-purple-600 border-purple-200' },
-  { key: 'Passport', label: 'Passport', icon: GlobeIcon, color: 'bg-green-100 text-green-600 border-green-200' },
-  { key: 'Driving License', label: 'Driving License', icon: CarIcon, color: 'bg-orange-100 text-orange-600 border-orange-200' },
-  { key: 'Ration Card', label: 'Ration Card', icon: BuildingIcon, color: 'bg-red-100 text-red-600 border-red-200' },
-  { key: 'Other', label: 'Other Document', icon: FileTextIcon, color: 'bg-gray-100 text-gray-600 border-gray-200' },
-]
-
 export default function DocScanPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [selectedDocType, setSelectedDocType] = useState<DocumentType>('PAN Card')
   const [analyzing, setAnalyzing] = useState(false)
   const [result, setResult] = useState<AnalysisResult | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -112,8 +99,7 @@ export default function DocScanPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          image: selectedImage,
-          documentType: selectedDocType
+          image: selectedImage
         })
       })
 
@@ -162,7 +148,7 @@ export default function DocScanPage() {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link href="/analytics" className="hover:text-orange-600 transition-colors">Dashboard</Link>
           <ChevronRightIcon className="w-4 h-4" />
-          <span className="text-gray-900 font-medium">Document Verification</span>
+          <span className="text-gray-900 font-medium">Fake Document Detection</span>
         </div>
 
         {/* Header */}
@@ -173,7 +159,7 @@ export default function DocScanPage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                AI Document Quality Assessment
+                AI Fake Document Detection
               </h1>
               <p className="text-gray-600">Powered by Google Gemini Vision AI</p>
             </div>
@@ -184,7 +170,7 @@ export default function DocScanPage() {
               AI Active
             </span>
             <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
-              Quality Analysis
+              Fraud Detection
             </span>
             <span className="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-medium rounded-full">
               Gemini Vision
@@ -192,35 +178,9 @@ export default function DocScanPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Panel - Upload */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Document Type Selection */}
-            <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <FileTextIcon className="w-5 h-5 text-orange-500" />
-                Document Type
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {documentTypes.map(doc => (
-                  <button
-                    key={doc.key}
-                    onClick={() => setSelectedDocType(doc.key)}
-                    className={`p-4 rounded-xl border-2 transition-all text-left hover:shadow-md ${
-                      selectedDocType === doc.key 
-                        ? 'border-orange-500 bg-orange-50 shadow-md' 
-                        : 'border-gray-200 hover:border-orange-300 bg-white'
-                    }`}
-                  >
-                    <div className={`w-10 h-10 rounded-xl ${doc.color} flex items-center justify-center mb-2 border`}>
-                      <doc.icon className="w-5 h-5" />
-                    </div>
-                    <p className="font-medium text-gray-900 text-sm">{doc.label}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
+          <div className="lg:col-span-1 space-y-6">
             {/* Upload Area */}
             <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
@@ -266,7 +226,7 @@ export default function DocScanPage() {
                             <BrainCircuitIcon className="absolute inset-0 m-auto w-8 h-8 text-white" />
                           </div>
                           <p className="font-semibold text-lg">Analyzing with Gemini AI...</p>
-                          <p className="text-sm text-white/70 mt-1">Checking authenticity</p>
+                          <p className="text-sm text-white/70 mt-1">Detecting fake documents</p>
                         </div>
                       </div>
                     )}
@@ -286,7 +246,7 @@ export default function DocScanPage() {
                       ) : (
                         <>
                           <ZapIcon className="w-5 h-5" />
-                          Verify Document
+                          Detect Fraud
                         </>
                       )}
                     </button>
@@ -309,46 +269,46 @@ export default function DocScanPage() {
                   <BrainCircuitIcon className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="font-semibold">Gemini Vision AI</p>
-                  <p className="text-sm text-slate-400">Advanced Document Analysis</p>
+                  <p className="font-semibold">Advanced Fraud Detection</p>
+                  <p className="text-sm text-slate-400">AI-Powered Document Analysis</p>
                 </div>
               </div>
               <div className="space-y-2 text-sm text-slate-300">
                 <div className="flex items-center gap-2">
                   <CheckIcon className="w-4 h-4 text-green-400" />
-                  <span>AI-assisted quality assessment</span>
+                  <span>Fake document detection</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckIcon className="w-4 h-4 text-green-400" />
-                  <span>OCR text extraction</span>
+                  <span>Tampering analysis</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckIcon className="w-4 h-4 text-green-400" />
-                  <span>Security feature analysis</span>
+                  <span>Security feature verification</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckIcon className="w-4 h-4 text-green-400" />
-                  <span>Photo tampering detection</span>
+                  <span>Photo manipulation detection</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Right Panel - Results */}
-          <div className="lg:col-span-3 space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             {!result && !error && !analyzing && (
               <div className="bg-white rounded-2xl p-12 border border-gray-100 shadow-sm text-center">
                 <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-orange-100 to-orange-200 rounded-3xl flex items-center justify-center">
                   <ScanIcon className="w-12 h-12 text-orange-500" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Ready to Verify</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Ready to Detect Fraud</h3>
                 <p className="text-gray-500 max-w-md mx-auto">
-                  Upload a document image and click "Assess Document" to start AI-assisted quality analysis
+                  Upload a document image and click "Detect Fraud" to start AI-powered fake document detection
                 </p>
                 <div className="flex items-center justify-center gap-6 mt-8 text-sm text-gray-400">
                   <div className="flex items-center gap-2">
                     <ShieldCheckIcon className="w-5 h-5" />
-                    <span>Quality Assessment</span>
+                    <span>Fraud Detection</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <SparklesIcon className="w-5 h-5" />
@@ -356,7 +316,7 @@ export default function DocScanPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <FileTextIcon className="w-5 h-5" />
-                    <span>OCR Extraction</span>
+                    <span>Authenticity Check</span>
                   </div>
                 </div>
               </div>
@@ -408,7 +368,7 @@ export default function DocScanPage() {
                         )}
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600 font-medium">Quality Assessment Result</p>
+                        <p className="text-sm text-gray-600 font-medium">Fraud Detection Result</p>
                         <h2 className={`text-3xl font-bold ${
                           result.verdict === 'GOOD_QUALITY' 
                             ? 'text-green-700' 
@@ -437,7 +397,7 @@ export default function DocScanPage() {
                 <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                   <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <AlertTriangleIcon className="w-5 h-5 text-orange-500" />
-                    Quality Risk Score
+                    Fraud Risk Score
                   </h3>
                   <div className="relative h-6 bg-gradient-to-r from-green-200 via-yellow-200 to-red-200 rounded-full overflow-hidden">
                     <div 
@@ -461,7 +421,7 @@ export default function DocScanPage() {
                     }`}>
                       {result.qualityScore}%
                     </span>
-                    <span className="text-gray-500 ml-2">Quality Risk</span>
+                    <span className="text-gray-500 ml-2">Fraud Risk</span>
                   </p>
                 </div>
 
@@ -503,7 +463,7 @@ export default function DocScanPage() {
                 <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                   <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <ShieldCheckIcon className="w-5 h-5 text-orange-500" />
-                    Security Checks
+                    Fraud Detection Checks
                   </h3>
                   <div className="space-y-3">
                     {result.qualityChecks.map((check, idx) => (
@@ -531,7 +491,7 @@ export default function DocScanPage() {
                   <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                     <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                       <AlertOctagonIcon className="w-5 h-5 text-red-500" />
-                      Quality Issues Detected
+                      Fraud Indicators Detected
                     </h3>
                     <div className="space-y-3">
                       {result.qualityIndicators.map((indicator, idx) => (

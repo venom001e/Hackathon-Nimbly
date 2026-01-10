@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
 
 export async function POST(request: NextRequest) {
   try {
-    const { image, documentType } = await request.json()
+    const { image } = await request.json()
 
     if (!image) {
       return NextResponse.json({ error: 'No image provided' }, { status: 400 })
@@ -16,11 +16,11 @@ export async function POST(request: NextRequest) {
       console.log('🔄 Using mock response - Please add real Gemini API key to .env file')
       
       const mockAnalysisResult = {
-        isGenuine: true,
-        confidenceScore: 87,
-        fraudScore: 13,
-        verdict: "GENUINE",
-        documentType: documentType || "Unknown Document",
+        isGoodQuality: false,
+        confidenceScore: 73,
+        qualityScore: 27,
+        verdict: "SUSPICIOUS",
+        documentType: "PAN Card (Auto-detected)",
         extractedData: {
           documentNumber: "ABCDE1234F",
           holderName: "SAMPLE NAME",
@@ -29,24 +29,26 @@ export async function POST(request: NextRequest) {
           address: "Sample Address, City, State - 123456",
           issueDate: "01/01/2020",
           expiryDate: "N/A",
-          issuingAuthority: "Government Authority"
+          issuingAuthority: "Income Tax Department"
         },
-        securityChecks: [
+        qualityChecks: [
           {"name": "Document Format", "status": "pass", "confidence": 90, "details": "Layout appears consistent with official format"},
-          {"name": "Font Analysis", "status": "pass", "confidence": 85, "details": "Fonts appear standard"},
-          {"name": "Photo Integrity", "status": "pass", "confidence": 80, "details": "Photo appears authentic"},
-          {"name": "Security Features", "status": "warning", "confidence": 70, "details": "Some features not clearly visible"},
-          {"name": "Print Quality", "status": "pass", "confidence": 85, "details": "Print quality appears good"},
-          {"name": "Text Consistency", "status": "pass", "confidence": 90, "details": "Text alignment proper"},
+          {"name": "Font Analysis", "status": "warning", "confidence": 65, "details": "Font inconsistencies detected"},
+          {"name": "Photo Integrity", "status": "fail", "confidence": 45, "details": "Photo shows signs of manipulation"},
+          {"name": "Security Features", "status": "warning", "confidence": 60, "details": "Some security features missing or unclear"},
+          {"name": "Print Quality", "status": "pass", "confidence": 85, "details": "Print quality appears acceptable"},
+          {"name": "Text Consistency", "status": "warning", "confidence": 70, "details": "Minor text alignment issues"},
           {"name": "Document Number Format", "status": "pass", "confidence": 95, "details": "Number format appears valid"},
-          {"name": "Overall Authenticity", "status": "pass", "confidence": 87, "details": "Document appears genuine (MOCK ANALYSIS)"}
+          {"name": "Fraud Detection", "status": "warning", "confidence": 73, "details": "Potential fraud indicators detected (MOCK ANALYSIS)"}
         ],
-        fraudIndicators: [
-          {"type": "Mock Analysis", "severity": "low", "description": "This is a mock response. Add real Gemini API key for actual analysis."}
+        qualityIndicators: [
+          {"type": "Photo Manipulation", "severity": "high", "description": "Possible digital editing detected in photograph area"},
+          {"type": "Font Inconsistency", "severity": "medium", "description": "Text fonts do not match standard government document fonts"},
+          {"type": "Mock Analysis", "severity": "low", "description": "This is a mock response. Add real Gemini API key for actual fraud detection."}
         ],
         recommendation: "MANUAL_REVIEW",
-        summary: "MOCK ANALYSIS: This is a sample response. Please add your Gemini API key to get real document verification.",
-        detailedAnalysis: "This is a mock response for testing purposes. To get real AI-powered document verification, please add your Gemini API key to the .env file and restart the server."
+        summary: "MOCK ANALYSIS: Document shows potential fraud indicators. Manual verification recommended.",
+        detailedAnalysis: "This is a mock fraud detection response. The document shows several suspicious characteristics including possible photo manipulation and font inconsistencies. Please add your Gemini API key to get real AI-powered fraud detection."
       }
 
       return NextResponse.json({
@@ -89,47 +91,56 @@ export async function POST(request: NextRequest) {
       }, { status: 500 })
     }
 
-    const prompt = `You are an AI-assisted document quality assessment tool for Indian government ID documents. Analyze this ${documentType || 'identity document'} image and assess its quality and completeness.
+    const prompt = `You are an AI-powered fake document detection system for Indian government ID documents. Analyze this identity document image and:
 
-IMPORTANT: Analyze the document for these quality aspects:
+1. FIRST: Automatically detect what type of document this is (PAN Card, Aadhaar Card, Voter ID, Passport, Driving License, Ration Card, etc.)
+2. THEN: Detect if it's fake, tampered, or authentic based on the document type
 
-1. **Document Format & Layout**
-   - Is the layout consistent with expected ${documentType} format?
-   - Are all required fields present in correct positions?
-   - Is the document size/aspect ratio appropriate?
+CRITICAL: Focus on FRAUD DETECTION, not just quality. Look for these fraud indicators:
 
-2. **Text & Typography**
-   - Are fonts consistent and readable?
-   - Is text alignment proper?
-   - Any spelling errors or inconsistencies?
-   - Is the text clarity appropriate?
+1. **Photo Manipulation Detection**
+   - Signs of digital editing or photo replacement
+   - Inconsistent lighting or shadows on photo
+   - Photo quality mismatch with document quality
+   - Evidence of photo pasting or digital insertion
 
-3. **Photo Analysis**
-   - Does the photo appear clear and unedited?
-   - Is photo quality consistent with document standards?
-   - Any signs of photo manipulation or poor quality?
+2. **Text & Font Fraud Analysis**
+   - Non-standard fonts that don't match official documents
+   - Text that appears digitally added or modified
+   - Inconsistent text spacing or alignment
+   - Spelling errors or formatting inconsistencies
 
-4. **Quality Features**
-   - Are expected quality features visible (hologram, watermark, etc.)?
-   - Is the document number format valid?
-   - Any signs of digital editing or poor reproduction?
+3. **Document Structure Fraud**
+   - Layout that doesn't match official document format
+   - Missing or incorrect security features
+   - Wrong document dimensions or aspect ratio
+   - Suspicious background patterns or textures
 
-5. **Print Quality**
-   - Is print quality consistent with official standards?
-   - Any pixelation or resolution issues?
-   - Color consistency check
+4. **Print Quality Fraud Indicators**
+   - Signs of home printing vs official printing
+   - Pixelation or low resolution reproduction
+   - Color inconsistencies or poor color reproduction
+   - Paper quality that doesn't match official standards
 
-6. **Overall Assessment**
-   - Does everything look consistent?
-   - Any quality issues or anomalies?
+5. **Security Features Analysis**
+   - Missing watermarks, holograms, or security threads
+   - Fake or poorly reproduced security elements
+   - Incorrect placement of security features
+   - Digital recreation of security elements
+
+6. **Data Consistency Fraud**
+   - Document number format that doesn't match official patterns
+   - Impossible dates (future issue dates, etc.)
+   - Inconsistent information across fields
+   - Data that doesn't align with document type standards
 
 Respond ONLY with valid JSON in this EXACT format (no markdown, no extra text):
 {
-  "isGoodQuality": true,
-  "confidenceScore": 85,
-  "qualityScore": 15,
-  "verdict": "GOOD_QUALITY",
-  "documentType": "${documentType || 'Unknown'}",
+  "isGoodQuality": false,
+  "confidenceScore": 65,
+  "qualityScore": 35,
+  "verdict": "SUSPICIOUS",
+  "documentType": "PAN Card (Auto-detected)",
   "extractedData": {
     "documentNumber": "ABCDE1234F",
     "holderName": "John Doe",
@@ -142,18 +153,21 @@ Respond ONLY with valid JSON in this EXACT format (no markdown, no extra text):
   },
   "qualityChecks": [
     {"name": "Document Format", "status": "pass", "confidence": 90, "details": "Layout matches expected format"},
-    {"name": "Font Analysis", "status": "pass", "confidence": 85, "details": "Fonts appear consistent"},
-    {"name": "Photo Quality", "status": "pass", "confidence": 80, "details": "Photo appears clear"},
-    {"name": "Quality Features", "status": "warning", "confidence": 70, "details": "Some quality features not clearly visible"},
-    {"name": "Print Quality", "status": "pass", "confidence": 85, "details": "Print quality is good"},
-    {"name": "Text Consistency", "status": "pass", "confidence": 90, "details": "Text is consistent"},
-    {"name": "Document Number Format", "status": "pass", "confidence": 95, "details": "Number format is valid"},
-    {"name": "Overall Authenticity", "status": "pass", "confidence": 85, "details": "Document appears genuine"}
+    {"name": "Font Analysis", "status": "warning", "confidence": 65, "details": "Font inconsistencies detected"},
+    {"name": "Photo Integrity", "status": "fail", "confidence": 40, "details": "Photo shows signs of manipulation"},
+    {"name": "Security Features", "status": "warning", "confidence": 60, "details": "Some security features missing"},
+    {"name": "Print Quality", "status": "pass", "confidence": 85, "details": "Print quality acceptable"},
+    {"name": "Text Consistency", "status": "warning", "confidence": 70, "details": "Text alignment issues"},
+    {"name": "Document Number Format", "status": "pass", "confidence": 95, "details": "Number format valid"},
+    {"name": "Fraud Detection", "status": "warning", "confidence": 65, "details": "Multiple fraud indicators detected"}
   ],
-  "fraudIndicators": [],
-  "recommendation": "ACCEPT",
-  "summary": "Document appears to be genuine with good authenticity indicators",
-  "detailedAnalysis": "The document shows consistent formatting, proper typography, and valid security features. No major fraud indicators detected."
+  "qualityIndicators": [
+    {"type": "Photo Manipulation", "severity": "high", "description": "Digital editing detected in photograph"},
+    {"type": "Font Inconsistency", "severity": "medium", "description": "Non-standard fonts used"}
+  ],
+  "recommendation": "REJECT",
+  "summary": "Document shows multiple fraud indicators and should be rejected",
+  "detailedAnalysis": "The document exhibits several characteristics of a fake document including photo manipulation, font inconsistencies, and missing security features. Recommend immediate rejection and further investigation."
 }`
 
     try {
@@ -194,11 +208,11 @@ Respond ONLY with valid JSON in this EXACT format (no markdown, no extra text):
         
         // Return a default analysis if parsing fails
         analysisResult = {
-          isGenuine: false,
+          isGoodQuality: false,
           confidenceScore: 30,
-          fraudScore: 70,
+          qualityScore: 70,
           verdict: "SUSPICIOUS",
-          documentType: documentType || "Unknown",
+          documentType: "Unknown Document (Auto-detected)",
           extractedData: {
             documentNumber: "Unable to extract",
             holderName: "Unable to extract",
@@ -209,10 +223,10 @@ Respond ONLY with valid JSON in this EXACT format (no markdown, no extra text):
             expiryDate: "N/A",
             issuingAuthority: "N/A"
           },
-          securityChecks: [
+          qualityChecks: [
             { name: "Analysis Error", status: "warning", confidence: 30, details: "Could not fully analyze document due to parsing error" }
           ],
-          fraudIndicators: [
+          qualityIndicators: [
             { type: "Analysis Incomplete", severity: "medium", description: "Document analysis could not be completed properly" }
           ],
           recommendation: "MANUAL_REVIEW",
