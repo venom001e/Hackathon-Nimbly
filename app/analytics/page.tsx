@@ -128,7 +128,7 @@ function AnalyticsContent() {
     try {
       // Parallel fetch for better performance
       const [csvRes, anomaliesRes] = await Promise.all([
-        fetch(`/api/analytics/csv-metrics${selectedState ? `?state=${selectedState}` : ''}`),
+        fetch(`/api/analytics/csv-metrics?time_range=${selectedTimeRange}${selectedState ? `&state=${selectedState}` : ''}`),
         fetch(`/api/analytics/anomalies?time_period=${selectedTimeRange}${selectedState ? `&state=${selectedState}` : ''}`)
       ])
 
@@ -287,6 +287,26 @@ function AnalyticsContent() {
 
         {activeTab === 'overview' && (
           <div className="space-y-6">
+            {/* Date Range Indicator */}
+            {csvMetrics?.date_range && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium text-blue-800">Current Data Range</h3>
+                    <p className="text-xs text-blue-600 mt-1">
+                      {csvMetrics.date_range.start} to {csvMetrics.date_range.end} ({csvMetrics.time_range})
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-blue-800">
+                      {csvMetrics.total_enrolments?.toLocaleString()} Total Enrolments
+                    </p>
+                    <p className="text-xs text-blue-600">in selected period</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Metrics Cards */}
             <MetricsCards
               totalEnrolments={metrics?.total_enrolments || 0}
@@ -301,7 +321,7 @@ function AnalyticsContent() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <TrendChart 
                 data={csvMetrics?.daily_trends || []} 
-                title="Enrolment Trends"
+                title={`Enrolment Trends (${selectedTimeRange})`}
                 loading={loading}
               />
               <AgeDistributionChart 
@@ -327,6 +347,26 @@ function AnalyticsContent() {
 
         {activeTab === 'analytics' && (
           <div className="space-y-6">
+            {/* Date Range Indicator */}
+            {csvMetrics?.date_range && (
+              <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium text-purple-800">Analytics Period</h3>
+                    <p className="text-xs text-purple-600 mt-1">
+                      Analyzing data from {csvMetrics.date_range.start} to {csvMetrics.date_range.end}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-purple-800">
+                      {csvMetrics.daily_trends?.length || 0} Days of Data
+                    </p>
+                    <p className="text-xs text-purple-600">available for analysis</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Predictive Analytics */}
             <PredictiveAnalytics 
               historicalData={csvMetrics?.daily_trends || []}
@@ -337,7 +377,7 @@ function AnalyticsContent() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <TrendChart 
                 data={csvMetrics?.daily_trends || []} 
-                title="Historical Trends"
+                title={`Historical Trends (${selectedTimeRange})`}
                 loading={loading}
               />
               <AgeDistributionChart 

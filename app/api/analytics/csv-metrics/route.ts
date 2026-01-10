@@ -7,18 +7,45 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const state = searchParams.get('state')
     const district = searchParams.get('district')
+    const timeRange = searchParams.get('time_range') || '30d'
 
-    // Get aggregated metrics from CSV data
+    // Calculate date range based on time_range parameter
+    const now = new Date()
+    let startDate: string | undefined
+    let days = 30
+
+    switch (timeRange) {
+      case '7d':
+        days = 7
+        break
+      case '30d':
+        days = 30
+        break
+      case '90d':
+        days = 90
+        break
+      case '365d':
+        days = 365
+        break
+      default:
+        days = 30
+    }
+
+    const startDateTime = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000))
+    startDate = `${startDateTime.getDate().toString().padStart(2, '0')}-${(startDateTime.getMonth() + 1).toString().padStart(2, '0')}-${startDateTime.getFullYear()}`
+
+    // Get aggregated metrics from CSV data with date filtering
     const metrics = await csvDataLoader.getAggregatedMetrics({
       state: state || undefined,
-      district: district || undefined
+      district: district || undefined,
+      startDate: startDate
     })
 
     // Get top performing states
     const topStates = await csvDataLoader.getTopStates(10)
 
-    // Get daily trends for growth calculation
-    const dailyTrends = await csvDataLoader.getDailyTrends(30)
+    // Get daily trends for the selected time range
+    const dailyTrends = await csvDataLoader.getDailyTrends(days)
     const dailyCounts = dailyTrends.map((d: any) => d.count)
 
     // Calculate growth rate
@@ -56,6 +83,11 @@ export async function GET(request: NextRequest) {
       confidence_score: Math.round(confidenceScore * 100) / 100,
       top_performing_states: topStates,
       anomaly_count: anomalyIndices.length,
+      time_range: timeRange,
+      date_range: {
+        start: startDate,
+        end: `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`
+      },
       age_group_distribution: {
         age_0_5: {
           count: metrics.byAgeGroup.age_0_5,
