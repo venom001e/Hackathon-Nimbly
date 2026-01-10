@@ -55,7 +55,6 @@ export default function DocScanPage() {
   const [result, setResult] = useState<AnalysisResult | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [dragActive, setDragActive] = useState(false)
-  const [isUsingMockResponse, setIsUsingMockResponse] = useState<boolean | null>(null)
   const [showFeedback, setShowFeedback] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -132,12 +131,9 @@ export default function DocScanPage() {
 
       console.log('✅ Analysis completed successfully')
       setResult(data.analysis)
-      setIsUsingMockResponse(data.isMockResponse || false)
       
       // Show appropriate notifications
-      if (data.isMockResponse) {
-        console.log('🔄 Mock response received - Add real Gemini API key for actual analysis')
-      } else if (data.aiModel) {
+      if (data.aiModel) {
         console.log(`🤖 Analysis completed using ${data.aiModel}`)
       }
       
@@ -163,7 +159,6 @@ export default function DocScanPage() {
     setSelectedImage(null)
     setResult(null)
     setError(null)
-    setIsUsingMockResponse(null)
     setShowFeedback(false)
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
@@ -223,65 +218,10 @@ export default function DocScanPage() {
             <span className="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-medium rounded-full">
               Gemini Vision
             </span>
-            {isUsingMockResponse === true && (
-              <span className="px-3 py-1 bg-orange-100 text-orange-700 text-sm font-medium rounded-full">
-                Demo Mode
-              </span>
-            )}
-            {isUsingMockResponse === false && (
-              <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm font-medium rounded-full">
-                Live AI
-              </span>
-            )}
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* API Status Banner */}
-          {isUsingMockResponse === true && (
-            <div className="lg:col-span-3 mb-6">
-              <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-2xl p-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-100 rounded-xl">
-                    <AlertTriangleIcon className="w-5 h-5 text-orange-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-orange-800">Demo Mode Active</p>
-                    <p className="text-sm text-orange-700">
-                      Currently showing enhanced mock responses. Add your Gemini API key to enable real AI-powered fraud detection.
-                    </p>
-                  </div>
-                  <Link 
-                    href="/api-setup" 
-                    className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm font-medium"
-                  >
-                    Setup API
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {isUsingMockResponse === false && (
-            <div className="lg:col-span-3 mb-6">
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-green-100 rounded-xl">
-                    <CheckCircleIcon className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-green-800">Live AI Analysis Active</p>
-                    <p className="text-sm text-green-700">
-                      Connected to Google Gemini AI for real-time fraud detection analysis.
-                    </p>
-                  </div>
-                  <span className="px-3 py-1 bg-green-600 text-white rounded-lg text-sm font-medium">
-                    ✓ Connected
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
           {/* Left Panel - Upload */}
           <div className="lg:col-span-1 space-y-6">
             {/* Upload Area */}
@@ -668,27 +608,25 @@ export default function DocScanPage() {
                   </div>
 
                   {/* Feedback Buttons */}
-                  {!isUsingMockResponse && (
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <p className="text-sm font-medium text-gray-700 mb-3">Was this analysis accurate?</p>
-                      <div className="flex gap-3">
-                        <button
-                          onClick={() => handleFeedback(true)}
-                          className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
-                        >
-                          <CheckIcon className="w-4 h-4" />
-                          Yes, Correct
-                        </button>
-                        <button
-                          onClick={() => handleFeedback(false)}
-                          className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium"
-                        >
-                          <XCircleIcon className="w-4 h-4" />
-                          No, Incorrect
-                        </button>
-                      </div>
+                  <div className="bg-gray-50 rounded-xl p-4">
+                    <p className="text-sm font-medium text-gray-700 mb-3">Was this analysis accurate?</p>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => handleFeedback(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
+                      >
+                        <CheckIcon className="w-4 h-4" />
+                        Yes, Correct
+                      </button>
+                      <button
+                        onClick={() => handleFeedback(false)}
+                        className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium"
+                      >
+                        <XCircleIcon className="w-4 h-4" />
+                        No, Incorrect
+                      </button>
                     </div>
-                  )}
+                  </div>
 
                   <div className="space-y-4 mt-4">
                     <div>
