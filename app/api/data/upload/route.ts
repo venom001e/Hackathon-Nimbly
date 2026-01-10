@@ -1,7 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { AnalyticsUtils } from '@/lib/analytics-utils'
+import { writeFile, mkdir } from 'fs/promises'
+import { existsSync } from 'fs'
+import path from 'path'
 import Papa from 'papaparse'
+
+interface UploadJob {
+  id: string
+  filename: string
+  status: 'processing' | 'completed' | 'failed'
+  progress: number
+  totalRecords?: number
+  processedRecords?: number
+  validRecords?: number
+  errorMessage?: string
+  startedAt: string
+  completedAt?: string
+}
+
+// In-memory storage for upload jobs (in production, use database)
+const uploadJobs = new Map<string, UploadJob>()
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,37 +32,50 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate file size (1GB limit)
-    const maxSize = parseInt(process.env.MAX_FILE_SIZE || '1073741824')
+    // Validate file type
+    if (!file.name.endsWith('.csv')) {
+      return NextResponse.json(
+        { error: 'Only CSV files are supported' },
+        { status: 400 }
+      )
+    }
+
+    // Validate file size (100MB limit)
+    const maxSize = 100 * 1024 * 1024 // 100MB
     if (file.size > maxSize) {
       return NextResponse.json(
-        { error: 'File size exceeds limit' },
+        { error: 'File size exceeds 100MB limit' },
         { status: 400 }
       )
     }
 
     // Create upload job
-    const uploadJob = await prisma.uploadJob.create({
-      data: {
-        filename: file.name,
-        status: 'processing',
-        progress: 0
-      }
-    })
+    const uploadId = `upload-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    const uploadJob: UploadJob = {
+      id: uploadId,
+      filename: file.name,
+      status: 'processing',
+      progress: 0,
+      startedAt: new Date().toISOString()
+    }
+
+    uploadJobs.set(uploadId, uploadJob)
 
     // Process file asynchronously
-    processFileAsync(file, uploadJob.id)
+    processFileAsync(file, uploadId)
 
     return NextResponse.json({
-      upload_id: uploadJob.id,
+      upload_id: uploadId,
       status: 'processing',
-      message: 'File upload started'
+      message: 'File upload started',
+      filename: file.name,
+      size: file.size
     })
 
   } catch (error) {
     console.error('Upload error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: String(error) },
       { status: 500 }
     )
   }
@@ -53,124 +83,155 @@ export async function POST(request: NextRequest) {
 
 async function processFileAsync(file: File, uploadId: string) {
   try {
+    const job = uploadJobs.get(uploadId)!
+    
+    // Read file content
     const text = await file.text()
     
     // Update progress
-    await prisma.uploadJob.update({
-      where: { id: uploadId },
-      data: { progress: 10 }
-    })
+    job.progress = 10
+    uploadJobs.set(uploadId, { ...job })
 
     // Parse CSV
     const parseResult = Papa.parse(text, {
       header: true,
       skipEmptyLines: true,
-      transformHeader: (header) => header.toLowerCase().replace(/\s+/g, '_')
+      transformHeader: (header) => header.toLowerCase().trim()
     })
 
     if (parseResult.errors.length > 0) {
-      await prisma.uploadJob.update({
-        where: { id: uploadId },
-        data: {
-          status: 'failed',
-          error_message: `Parse errors: ${parseResult.errors.map((e: any) => e.message).join(', ')}`
-        }
-      })
+      job.status = 'failed'
+      job.errorMessage = `Parse errors: ${parseResult.errors.map((e: any) => e.message).join(', ')}`
+      job.completedAt = new Date().toISOString()
+      uploadJobs.set(uploadId, { ...job })
       return
     }
 
     const records = parseResult.data as any[]
-    const totalRecords = records.length
+    job.totalRecords = records.length
+    job.progress = 20
+    uploadJobs.set(uploadId, { ...job })
 
-    await prisma.uploadJob.update({
-      where: { id: uploadId },
-      data: {
-        total_records: totalRecords,
-        progress: 20
-      }
-    })
+    // Validate CSV structure
+    const expectedColumns = ['date', 'state', 'district', 'pincode', 'age_0_5', 'age_5_17', 'age_18_greater']
+    const actualColumns = parseResult.meta.fields || []
+    
+    const missingColumns = expectedColumns.filter(col => !actualColumns.includes(col))
+    if (missingColumns.length > 0) {
+      job.status = 'failed'
+      job.errorMessage = `Missing required columns: ${missingColumns.join(', ')}`
+      job.completedAt = new Date().toISOString()
+      uploadJobs.set(uploadId, { ...job })
+      return
+    }
 
-    // Validate and process records in chunks
-    const chunkSize = parseInt(process.env.BATCH_SIZE || '1000')
-    const chunks = AnalyticsUtils.chunkArray(records, chunkSize)
-    let processedRecords = 0
+    // Validate and clean records
     const validRecords: any[] = []
     const errors: string[] = []
-
-    for (let i = 0; i < chunks.length; i++) {
-      const chunk = chunks[i]
+    
+    for (let i = 0; i < records.length; i++) {
+      const record = records[i]
+      const rowNum = i + 2 // +2 because of header and 0-based index
       
-      for (const record of chunk) {
-        const validation = AnalyticsUtils.validateEnrolmentRecord(record)
-        
-        if (validation.isValid) {
-          validRecords.push({
-            timestamp: new Date(record.timestamp),
-            state: record.state,
-            district: record.district,
-            age_group: record.age_group,
-            gender: record.gender.toLowerCase(),
-            enrolment_type: record.enrolment_type,
-            biometric_quality: parseFloat(record.biometric_quality),
-            processing_time: parseFloat(record.processing_time)
-          })
-        } else {
-          errors.push(`Row ${processedRecords + 1}: ${validation.errors.join(', ')}`)
+      try {
+        // Validate required fields
+        if (!record.date || !record.state || !record.district) {
+          errors.push(`Row ${rowNum}: Missing required fields (date, state, district)`)
+          continue
         }
-        
-        processedRecords++
+
+        // Validate date format (DD-MM-YYYY)
+        const datePattern = /^\d{2}-\d{2}-\d{4}$/
+        if (!datePattern.test(record.date)) {
+          errors.push(`Row ${rowNum}: Invalid date format. Expected DD-MM-YYYY, got: ${record.date}`)
+          continue
+        }
+
+        // Validate age group numbers
+        const age_0_5 = parseInt(record.age_0_5) || 0
+        const age_5_17 = parseInt(record.age_5_17) || 0
+        const age_18_greater = parseInt(record.age_18_greater) || 0
+
+        if (age_0_5 < 0 || age_5_17 < 0 || age_18_greater < 0) {
+          errors.push(`Row ${rowNum}: Age group values cannot be negative`)
+          continue
+        }
+
+        // Clean and validate record
+        const cleanRecord = {
+          date: record.date.trim(),
+          state: record.state.trim(),
+          district: record.district.trim(),
+          pincode: record.pincode?.toString().trim() || '',
+          age_0_5,
+          age_5_17,
+          age_18_greater,
+          total: age_0_5 + age_5_17 + age_18_greater
+        }
+
+        validRecords.push(cleanRecord)
+
+      } catch (error) {
+        errors.push(`Row ${rowNum}: Processing error - ${error}`)
       }
 
-      // Update progress
-      const progress = 20 + (i / chunks.length) * 60
-      await prisma.uploadJob.update({
-        where: { id: uploadId },
-        data: {
-          progress,
-          processed_records: processedRecords
-        }
-      })
+      // Update progress periodically
+      if (i % 1000 === 0) {
+        job.progress = 20 + (i / records.length) * 60
+        job.processedRecords = i
+        uploadJobs.set(uploadId, { ...job })
+      }
     }
 
-    // Insert valid records in chunks
+    job.processedRecords = records.length
+    job.validRecords = validRecords.length
+    job.progress = 80
+    uploadJobs.set(uploadId, { ...job })
+
+    // Save valid records to CSV file
     if (validRecords.length > 0) {
-      const insertChunks = AnalyticsUtils.chunkArray(validRecords, chunkSize)
+      const uploadDir = path.join(process.cwd(), 'uploads')
       
-      for (let i = 0; i < insertChunks.length; i++) {
-        await prisma.enrolmentData.createMany({
-          data: insertChunks[i],
-          skipDuplicates: true
-        })
-
-        // Update progress
-        const progress = 80 + (i / insertChunks.length) * 20
-        await prisma.uploadJob.update({
-          where: { id: uploadId },
-          data: { progress }
-        })
+      // Ensure upload directory exists
+      if (!existsSync(uploadDir)) {
+        await mkdir(uploadDir, { recursive: true })
       }
+
+      // Generate filename with timestamp
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
+      const filename = `uploaded_${timestamp}_${validRecords.length}_records.csv`
+      const filepath = path.join(uploadDir, filename)
+
+      // Convert back to CSV
+      const csvContent = Papa.unparse(validRecords, {
+        header: true,
+        columns: ['date', 'state', 'district', 'pincode', 'age_0_5', 'age_5_17', 'age_18_greater']
+      })
+
+      await writeFile(filepath, csvContent, 'utf-8')
+
+      job.progress = 100
+      job.status = 'completed'
+      job.completedAt = new Date().toISOString()
+      
+      if (errors.length > 0) {
+        job.errorMessage = `${errors.length} rows had errors. First 5: ${errors.slice(0, 5).join('; ')}`
+      }
+    } else {
+      job.status = 'failed'
+      job.errorMessage = `No valid records found. Errors: ${errors.slice(0, 10).join('; ')}`
+      job.completedAt = new Date().toISOString()
     }
 
-    // Complete the job
-    await prisma.uploadJob.update({
-      where: { id: uploadId },
-      data: {
-        status: validRecords.length > 0 ? 'completed' : 'failed',
-        progress: 100,
-        processed_records: validRecords.length,
-        error_message: errors.length > 0 ? errors.slice(0, 10).join('\n') : null
-      }
-    })
+    uploadJobs.set(uploadId, { ...job })
 
   } catch (error) {
     console.error('Processing error:', error)
-    await prisma.uploadJob.update({
-      where: { id: uploadId },
-      data: {
-        status: 'failed',
-        error_message: error instanceof Error ? error.message : 'Unknown error'
-      }
-    })
+    const job = uploadJobs.get(uploadId)!
+    job.status = 'failed'
+    job.errorMessage = error instanceof Error ? error.message : 'Unknown processing error'
+    job.completedAt = new Date().toISOString()
+    uploadJobs.set(uploadId, { ...job })
   }
 }
 
@@ -180,15 +241,18 @@ export async function GET(request: NextRequest) {
     const uploadId = searchParams.get('upload_id')
 
     if (!uploadId) {
-      return NextResponse.json(
-        { error: 'Upload ID required' },
-        { status: 400 }
-      )
+      // Return all recent upload jobs
+      const recentJobs = Array.from(uploadJobs.values())
+        .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime())
+        .slice(0, 20)
+
+      return NextResponse.json({
+        jobs: recentJobs,
+        total: uploadJobs.size
+      })
     }
 
-    const uploadJob = await prisma.uploadJob.findUnique({
-      where: { id: uploadId }
-    })
+    const uploadJob = uploadJobs.get(uploadId)
 
     if (!uploadJob) {
       return NextResponse.json(
@@ -199,11 +263,15 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       upload_id: uploadJob.id,
+      filename: uploadJob.filename,
       status: uploadJob.status,
       progress: uploadJob.progress,
-      processed_records: uploadJob.processed_records,
-      total_records: uploadJob.total_records,
-      error_message: uploadJob.error_message
+      total_records: uploadJob.totalRecords,
+      processed_records: uploadJob.processedRecords,
+      valid_records: uploadJob.validRecords,
+      error_message: uploadJob.errorMessage,
+      started_at: uploadJob.startedAt,
+      completed_at: uploadJob.completedAt
     })
 
   } catch (error) {

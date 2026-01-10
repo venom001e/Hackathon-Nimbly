@@ -44,4 +44,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# uploads
+/uploads
+*.csv
+!api_data_aadhar_enrolment/*.csv
+
 
