@@ -136,6 +136,103 @@ Example Decisions Supported:
 
 ---
 
+## 🔗 Real-Time API Integration
+
+**Nimbly** is designed with a flexible architecture that allows seamless integration with external APIs for real-time data streaming. The dashboard can easily connect to government databases, third-party services, and live data feeds.
+
+### Integration Methods
+
+#### 1. **API Integration (Most Common)**
+The most probable integration method for government systems:
+
+* **UIDAI APIs**: Connect to UIDAI या enrolment agencies के systems से data pull/push
+* **Periodic Sync**: Secure APIs use करके periodic data fetch (हर minute या hour)
+* **Technology**: RESTful APIs, GraphQL for batch data processing
+* **Security**: OAuth, JWT tokens, HTTPS encryption (Aadhaar Act compliant)
+* **Result**: Live charts, alerts, और metrics automatically update होते रहेंगे
+
+```javascript
+// Example: UIDAI API Integration
+export const uidaiAPI = {
+  baseURL: 'https://api.uidai.gov.in',
+  endpoints: {
+    enrolment: '/enrolment/realtime',
+    updates: '/updates/stream'
+  }
+}
+```
+
+#### 2. **Webhooks & Event Streaming**
+For true real-time updates (second-level):
+
+* **Instant Notifications**: Enrolment होने पर source system से webhook trigger
+* **Advanced Streaming**: Kafka, Apache Flink, AWS Kinesis streaming tools
+* **Use Case**: Continuous data flow for big data processing
+* **Benefit**: Real-time dashboard updates और instant alerts
+
+#### 3. **Database Sync & Cloud Integration**
+Direct database connections:
+
+* **Government DBs**: NIC या state-level databases से direct sync
+* **ETL Tools**: Apache Airflow for Extract, Transform, Load processes
+* **Cloud Services**: Firebase Realtime Database, Supabase integration
+* **Hosting**: AWS/GCP migration for better performance और scalability
+
+#### 4. **WebSocket & Live Streaming**
+Bi-directional real-time communication:
+
+* **Live Updates**: Dashboard automatically refresh होता रहेगा
+* **Technology**: Socket.io, WebSocket APIs
+* **Use Cases**: Live enrolment counts, real-time alerts
+* **Performance**: Minimal latency के साथ instant updates
+
+```javascript
+// Example: WebSocket Integration
+const ws = new WebSocket('wss://data.gov.in/stream');
+ws.onmessage = (event) => {
+  updateDashboard(event.data);
+}
+```
+
+### Quick Integration Steps
+
+1. **Configure API Endpoint**
+   ```bash
+   # Add to .env file
+   EXTERNAL_API_URL=https://your-api.gov.in
+   EXTERNAL_API_KEY=your_api_key
+   ```
+
+2. **Create API Service**
+   - Implement API service in `lib/external-api.ts`
+   - Add error handling और retry logic
+   - Configure rate limiting और caching
+
+3. **Update Dashboard**
+   - Integrate API calls into dashboard components
+   - Enable real-time data display
+   - Add automatic refresh mechanisms
+
+### Supported Integration Types
+
+| Type | Features | Use Case |
+|------|----------|----------|
+| **REST APIs** | GET/POST endpoints, JSON format, Authentication | Standard government APIs |
+| **WebSocket** | Real-time feeds, Bi-directional communication | Live data streaming |
+| **Database** | Direct connections, Scheduled sync, Bulk import | Government database integration |
+
+### Integration Benefits
+
+* **Real-time Updates**: Live data synchronization with automatic refresh
+* **Scalable Architecture**: Handle multiple API connections simultaneously  
+* **Error Handling**: Robust retry mechanisms और fallback options
+* **Performance Optimized**: Caching और rate limiting for optimal performance
+* **Security Compliant**: Aadhaar Act के अनुसार secure data handling
+
+> **Note**: यह dashboard किसी भी external API के साथ easily integrate हो सकता है for real-time data streaming. Government systems, third-party services, और live data feeds के साथ seamless connection possible है.
+
+---
+
 ## Getting Started
 
 ```bash
@@ -143,6 +240,37 @@ git clone https://github.com/venom001e/Nimbly-.git
 cd nimbly
 npm install
 npm run dev
+```
+
+**Default Login Credentials:**
+- Username: `admin`
+- Password: `admin123`
+
+### 📚 Complete Documentation
+
+For detailed setup instructions, API integration guides, and comprehensive documentation, visit:
+**[/docs](http://localhost:3000/docs)** - Complete project documentation with:
+
+* Installation & Configuration Guide
+* Real-time API Integration Methods
+* User Guide & Dashboard Navigation
+* API Reference & Examples
+* Troubleshooting & Support
+
+### Environment Setup
+
+Create a `.env` file:
+
+```bash
+# Gemini AI (Optional)
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Database (Optional)
+DATABASE_URL="postgresql://username:password@host:port/database"
+
+# Performance (Optional)
+REDIS_URL="redis://localhost:6379"
+ENABLE_PERFORMANCE_MONITORING="true"
 ```
 
 ---

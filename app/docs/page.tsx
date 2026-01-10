@@ -2,24 +2,24 @@
 
 import Link from 'next/link'
 import { 
-  BookOpenIcon, 
-  ChevronRightIcon,
-  CodeBracketIcon,
-  CogIcon,
-  DocumentTextIcon,
-  ShieldCheckIcon,
-  ChartBarIcon,
-  CloudArrowUpIcon,
-  ExclamationTriangleIcon,
-  InformationCircleIcon,
-  PlayIcon,
-  CommandLineIcon,
-  DatabaseIcon,
-  GlobeAltIcon,
-  UserGroupIcon,
-  LightBulbIcon,
-  CheckCircleIcon
-} from '@heroicons/react/24/outline'
+  BookOpen, 
+  ChevronRight,
+  Code,
+  Settings,
+  FileText,
+  Shield,
+  BarChart3,
+  CloudUpload,
+  AlertTriangle,
+  Info,
+  Play,
+  Terminal,
+  Database,
+  Globe,
+  Users,
+  Lightbulb,
+  CheckCircle
+} from 'lucide-react'
 
 export default function DocumentationPage() {
   return (
@@ -28,7 +28,7 @@ export default function DocumentationPage() {
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
-          <ChevronRightIcon className="w-4 h-4" />
+          <ChevronRight className="w-4 h-4" />
           <span className="text-gray-900 font-medium">Documentation</span>
         </div>
 
@@ -36,7 +36,7 @@ export default function DocumentationPage() {
         <div className="mb-12">
           <div className="flex items-center gap-4 mb-4">
             <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg shadow-blue-500/25">
-              <BookOpenIcon className="w-8 h-8 text-white" />
+              <BookOpen className="w-8 h-8 text-white" />
             </div>
             <div>
               <h1 className="text-4xl font-bold text-gray-900">
@@ -66,6 +66,7 @@ export default function DocumentationPage() {
                 <a href="#installation" className="block text-sm text-gray-600 hover:text-blue-600 transition-colors">Installation</a>
                 <a href="#configuration" className="block text-sm text-gray-600 hover:text-blue-600 transition-colors">Configuration</a>
                 <a href="#user-guide" className="block text-sm text-gray-600 hover:text-blue-600 transition-colors">User Guide</a>
+                <a href="#api-integration" className="block text-sm text-gray-600 hover:text-blue-600 transition-colors">API Integration</a>
                 <a href="#api-reference" className="block text-sm text-gray-600 hover:text-blue-600 transition-colors">API Reference</a>
                 <a href="#troubleshooting" className="block text-sm text-gray-600 hover:text-blue-600 transition-colors">Troubleshooting</a>
                 <a href="#contributing" className="block text-sm text-gray-600 hover:text-blue-600 transition-colors">Contributing</a>
@@ -79,7 +80,7 @@ export default function DocumentationPage() {
             {/* Overview Section */}
             <section id="overview" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <InformationCircleIcon className="w-6 h-6 text-blue-500" />
+                <Info className="w-6 h-6 text-blue-500" />
                 <h2 className="text-2xl font-bold text-gray-900">Project Overview</h2>
               </div>
               
@@ -101,17 +102,17 @@ export default function DocumentationPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                    <DatabaseIcon className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                    <Database className="w-8 h-8 text-green-600 mx-auto mb-2" />
                     <p className="font-semibold text-green-900">1,006,029+</p>
                     <p className="text-sm text-green-700">Records Analyzed</p>
                   </div>
                   <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 text-center">
-                    <ChartBarIcon className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                    <BarChart3 className="w-8 h-8 text-purple-600 mx-auto mb-2" />
                     <p className="font-semibold text-purple-900">15+</p>
                     <p className="text-sm text-purple-700">Analytics Features</p>
                   </div>
                   <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 text-center">
-                    <GlobeAltIcon className="w-8 h-8 text-orange-600 mx-auto mb-2" />
+                    <Globe className="w-8 h-8 text-orange-600 mx-auto mb-2" />
                     <p className="font-semibold text-orange-900">All States</p>
                     <p className="text-sm text-orange-700">Coverage Analysis</p>
                   </div>
@@ -122,14 +123,14 @@ export default function DocumentationPage() {
             {/* Key Features Section */}
             <section id="features" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <LightBulbIcon className="w-6 h-6 text-yellow-500" />
+                <Lightbulb className="w-6 h-6 text-yellow-500" />
                 <h2 className="text-2xl font-bold text-gray-900">Key Features</h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Real-time Analytics Dashboard</h3>
                       <p className="text-sm text-gray-600">Interactive charts and visualizations for enrolment data analysis</p>
@@ -137,7 +138,7 @@ export default function DocumentationPage() {
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Geographic Analysis</h3>
                       <p className="text-sm text-gray-600">State and district-wise enrolment distribution mapping</p>
@@ -145,7 +146,7 @@ export default function DocumentationPage() {
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Demographic Insights</h3>
                       <p className="text-sm text-gray-600">Age group analysis and demographic trend identification</p>
@@ -153,7 +154,7 @@ export default function DocumentationPage() {
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Predictive Analytics</h3>
                       <p className="text-sm text-gray-600">Forecasting and trend prediction for future planning</p>
@@ -161,7 +162,7 @@ export default function DocumentationPage() {
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Alert Management</h3>
                       <p className="text-sm text-gray-600">Automated anomaly detection and alert system</p>
@@ -171,7 +172,7 @@ export default function DocumentationPage() {
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Data Upload System</h3>
                       <p className="text-sm text-gray-600">Secure CSV file processing with validation and error reporting</p>
@@ -179,7 +180,7 @@ export default function DocumentationPage() {
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">AI Document Detection</h3>
                       <p className="text-sm text-gray-600">Gemini AI-powered fake document detection system</p>
@@ -187,7 +188,7 @@ export default function DocumentationPage() {
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Report Generation</h3>
                       <p className="text-sm text-gray-600">Automated PDF report generation with insights and recommendations</p>
@@ -195,7 +196,7 @@ export default function DocumentationPage() {
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Performance Optimized</h3>
                       <p className="text-sm text-gray-600">Redis caching, database optimization, and efficient data processing</p>
@@ -203,11 +204,53 @@ export default function DocumentationPage() {
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Secure Authentication</h3>
                       <p className="text-sm text-gray-600">Role-based access control with secure login system</p>
                     </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Easy API Integration</h3>
+                      <p className="text-sm text-gray-600">Seamless integration with external APIs for real-time data streaming</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Globe className="w-6 h-6 text-green-600" />
+                  <h3 className="text-xl font-semibold text-green-900">Real-Time API Integration</h3>
+                </div>
+                <p className="text-green-800 mb-4">
+                  Nimbly is designed with a flexible architecture that allows easy integration with any external API 
+                  for real-time data streaming. The system can seamlessly connect to government databases, 
+                  third-party services, and live data feeds.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-white/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-green-900 mb-2">Supported Integrations</h4>
+                    <ul className="text-sm text-green-800 space-y-1">
+                      <li>• UIDAI Real-time APIs</li>
+                      <li>• Government Database APIs</li>
+                      <li>• Third-party Analytics Services</li>
+                      <li>• WebSocket Connections</li>
+                      <li>• REST API Endpoints</li>
+                    </ul>
+                  </div>
+                  <div className="bg-white/50 rounded-lg p-4">
+                    <h4 className="font-semibold text-green-900 mb-2">Integration Benefits</h4>
+                    <ul className="text-sm text-green-800 space-y-1">
+                      <li>• Live data synchronization</li>
+                      <li>• Automatic data updates</li>
+                      <li>• Real-time analytics</li>
+                      <li>• Instant alert notifications</li>
+                      <li>• Seamless data flow</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -216,14 +259,14 @@ export default function DocumentationPage() {
             {/* Getting Started Section */}
             <section id="getting-started" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <PlayIcon className="w-6 h-6 text-green-500" />
+                <Play className="w-6 h-6 text-green-500" />
                 <h2 className="text-2xl font-bold text-gray-900">Getting Started</h2>
               </div>
 
               <div className="space-y-6">
                 <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <ExclamationTriangleIcon className="w-5 h-5 text-yellow-600" />
+                    <AlertTriangle className="w-5 h-5 text-yellow-600" />
                     <h3 className="font-semibold text-yellow-900">Prerequisites</h3>
                   </div>
                   <ul className="text-yellow-800 text-sm space-y-1">
@@ -260,7 +303,7 @@ export default function DocumentationPage() {
             {/* Installation Section */}
             <section id="installation" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <CommandLineIcon className="w-6 h-6 text-purple-500" />
+                <Terminal className="w-6 h-6 text-purple-500" />
                 <h2 className="text-2xl font-bold text-gray-900">Installation Guide</h2>
               </div>
 
@@ -301,7 +344,7 @@ export default function DocumentationPage() {
             {/* Configuration Section */}
             <section id="configuration" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <CogIcon className="w-6 h-6 text-orange-500" />
+                <Settings className="w-6 h-6 text-orange-500" />
                 <h2 className="text-2xl font-bold text-gray-900">Configuration</h2>
               </div>
 
@@ -360,7 +403,7 @@ export default function DocumentationPage() {
             {/* User Guide Section */}
             <section id="user-guide" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <UserGroupIcon className="w-6 h-6 text-indigo-500" />
+                <Users className="w-6 h-6 text-indigo-500" />
                 <h2 className="text-2xl font-bold text-gray-900">User Guide</h2>
               </div>
 
@@ -416,10 +459,198 @@ export default function DocumentationPage() {
               </div>
             </section>
 
+            {/* API Integration Section */}
+            <section id="api-integration" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
+              <div className="flex items-center gap-3 mb-6">
+                <Globe className="w-6 h-6 text-blue-500" />
+                <h2 className="text-2xl font-bold text-gray-900">API Integration Guide</h2>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                  <h3 className="font-semibold text-blue-900 mb-3">Easy External API Integration</h3>
+                  <p className="text-blue-800 mb-4">
+                    Nimbly's flexible architecture allows seamless integration with any external API for real-time data streaming. 
+                    Connect to government databases, third-party services, and live data feeds with minimal configuration.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6 mb-6">
+                  <h3 className="font-semibold text-orange-900 mb-4">🚀 Real-Time Data Integration Methods</h3>
+                  <p className="text-orange-800 mb-4">
+                    This dashboard can easily integrate with various real-time data sources for live updates. 
+                    Here are the most common and effective integration approaches:
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-white/70 rounded-lg p-4">
+                      <h4 className="font-semibold text-orange-900 mb-3">🔗 API Integration (Most Common)</h4>
+                      <div className="space-y-2 text-sm text-orange-800">
+                        <p><strong>High Probability:</strong> UIDAI या enrolment agencies के systems से data pull/push</p>
+                        <p><strong>How:</strong> Secure APIs use करके periodic data fetch (हर minute या hour)</p>
+                        <p><strong>Example:</strong> UIDAI Enrolment APIs से data export करके dashboard में show करना</p>
+                        <p><strong>Technology:</strong> RESTful APIs, GraphQL for batch data</p>
+                        <p><strong>Security:</strong> OAuth, JWT tokens, HTTPS encryption (Aadhaar Act compliant)</p>
+                        <p><strong>Result:</strong> Live charts, alerts, metrics automatically update होते रहेंगे</p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white/70 rounded-lg p-4">
+                      <h4 className="font-semibold text-orange-900 mb-3">⚡ Webhooks & Event Streaming</h4>
+                      <div className="space-y-2 text-sm text-orange-800">
+                        <p><strong>True Realtime:</strong> Second-level updates के लिए webhooks</p>
+                        <p><strong>How:</strong> Enrolment होने पर source system से webhook trigger</p>
+                        <p><strong>Advanced:</strong> Kafka, Apache Flink, AWS Kinesis streaming tools</p>
+                        <p><strong>Use Case:</strong> Continuous data flow for big data</p>
+                        <p><strong>Benefit:</strong> Instant notifications और real-time dashboard updates</p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white/70 rounded-lg p-4">
+                      <h4 className="font-semibold text-orange-900 mb-3">🗄️ Database Sync & Cloud Integration</h4>
+                      <div className="space-y-2 text-sm text-orange-800">
+                        <p><strong>Direct Sync:</strong> Government databases (NIC, state-level DBs) से direct connection</p>
+                        <p><strong>ETL Tools:</strong> Apache Airflow for Extract, Transform, Load</p>
+                        <p><strong>Cloud Integration:</strong> Firebase Realtime Database, Supabase</p>
+                        <p><strong>Hosting:</strong> AWS/GCP migration for better performance</p>
+                        <p><strong>Querying:</strong> Real-time database queries और live data sync</p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white/70 rounded-lg p-4">
+                      <h4 className="font-semibold text-orange-900 mb-3">🔄 WebSocket & Live Streaming</h4>
+                      <div className="space-y-2 text-sm text-orange-800">
+                        <p><strong>Bi-directional:</strong> Real-time communication between server और client</p>
+                        <p><strong>Live Updates:</strong> Dashboard automatically refresh होता रहेगा</p>
+                        <p><strong>Use Cases:</strong> Live enrolment counts, real-time alerts</p>
+                        <p><strong>Technology:</strong> Socket.io, WebSocket APIs</p>
+                        <p><strong>Performance:</strong> Minimal latency के साथ instant updates</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-4">Integration Examples</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="border border-gray-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-gray-900 mb-3">UIDAI Real-time API</h4>
+                      <div className="bg-gray-900 rounded p-3 text-white font-mono text-sm mb-3">
+                        <div className="text-green-400">// Add to lib/external-apis.ts</div>
+                        <div>export const uidaiAPI = &#123;</div>
+                        <div>  baseURL: &apos;https://api.uidai.gov.in&apos;,</div>
+                        <div>  endpoints: &#123;</div>
+                        <div>    enrolment: &apos;/enrolment/realtime&apos;,</div>
+                        <div>    updates: &apos;/updates/stream&apos;</div>
+                        <div>  &#125;</div>
+                        <div>&#125;</div>
+                      </div>
+                      <p className="text-sm text-gray-600">Connect to UIDAI's real-time enrolment data stream</p>
+                    </div>
+
+                    <div className="border border-gray-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-gray-900 mb-3">WebSocket Integration</h4>
+                      <div className="bg-gray-900 rounded p-3 text-white font-mono text-sm mb-3">
+                        <div className="text-green-400">// Real-time data streaming</div>
+                        <div>const ws = new WebSocket(</div>
+                        <div>  &apos;wss://data.gov.in/stream&apos;</div>
+                        <div>);</div>
+                        <div>ws.onmessage = (event) =&gt; &#123;</div>
+                        <div>  updateDashboard(event.data);</div>
+                        <div>&#125;</div>
+                      </div>
+                      <p className="text-sm text-gray-600">Live data updates via WebSocket connections</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-4">Supported Integration Types</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-green-900 mb-2">REST APIs</h4>
+                      <ul className="text-sm text-green-800 space-y-1">
+                        <li>• GET/POST endpoints</li>
+                        <li>• JSON data format</li>
+                        <li>• Authentication headers</li>
+                        <li>• Rate limiting support</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-blue-900 mb-2">WebSocket Streams</h4>
+                      <ul className="text-sm text-blue-800 space-y-1">
+                        <li>• Real-time data feeds</li>
+                        <li>• Bi-directional communication</li>
+                        <li>• Auto-reconnection</li>
+                        <li>• Message queuing</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-purple-900 mb-2">Database Connections</h4>
+                      <ul className="text-sm text-purple-800 space-y-1">
+                        <li>• Direct DB connections</li>
+                        <li>• Scheduled data sync</li>
+                        <li>• Change data capture</li>
+                        <li>• Bulk data import</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-4">Quick Integration Steps</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900">Configure API Endpoint</h4>
+                        <p className="text-gray-600 text-sm">Add your API configuration to the environment variables or config file</p>
+                        <div className="bg-gray-100 rounded p-2 font-mono text-sm mt-2">
+                          EXTERNAL_API_URL=https://your-api.gov.in<br/>
+                          EXTERNAL_API_KEY=your_api_key
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900">Create API Service</h4>
+                        <p className="text-gray-600 text-sm">Implement the API service in lib/external-api.ts with error handling and retry logic</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900">Update Dashboard</h4>
+                        <p className="text-gray-600 text-sm">Integrate the API calls into your dashboard components for real-time data display</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Info className="w-5 h-5 text-yellow-600" />
+                    <h4 className="font-semibold text-yellow-900">Integration Benefits</h4>
+                  </div>
+                  <ul className="text-yellow-800 text-sm space-y-1">
+                    <li>• <strong>Real-time Updates:</strong> Live data synchronization with automatic refresh</li>
+                    <li>• <strong>Scalable Architecture:</strong> Handle multiple API connections simultaneously</li>
+                    <li>• <strong>Error Handling:</strong> Robust retry mechanisms and fallback options</li>
+                    <li>• <strong>Performance Optimized:</strong> Caching and rate limiting for optimal performance</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
             {/* API Reference Section */}
             <section id="api-reference" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <CodeBracketIcon className="w-6 h-6 text-red-500" />
+                <Code className="w-6 h-6 text-red-500" />
                 <h2 className="text-2xl font-bold text-gray-900">API Reference</h2>
               </div>
 
@@ -457,12 +688,12 @@ export default function DocumentationPage() {
                   <h3 className="font-semibold text-gray-900 mb-3">Response Format</h3>
                   <div className="bg-gray-900 rounded-xl p-4 text-white font-mono text-sm">
                     <div className="text-green-400">// Standard API Response</div>
-                    <div>{'{'}</div>
-                    <div>  "success": true,</div>
-                    <div>  "data": {'{'} ... {'}'},</div>
-                    <div>  "message": "Operation completed successfully",</div>
-                    <div>  "timestamp": "2025-01-10T12:00:00Z"</div>
-                    <div>{'}'}</div>
+                    <div>&#123;</div>
+                    <div>  &quot;success&quot;: true,</div>
+                    <div>  &quot;data&quot;: &#123; ... &#125;,</div>
+                    <div>  &quot;message&quot;: &quot;Operation completed successfully&quot;,</div>
+                    <div>  &quot;timestamp&quot;: &quot;2025-01-10T12:00:00Z&quot;</div>
+                    <div>&#125;</div>
                   </div>
                 </div>
               </div>
@@ -471,7 +702,7 @@ export default function DocumentationPage() {
             {/* Troubleshooting Section */}
             <section id="troubleshooting" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <ShieldCheckIcon className="w-6 h-6 text-red-500" />
+                <Shield className="w-6 h-6 text-red-500" />
                 <h2 className="text-2xl font-bold text-gray-900">Troubleshooting</h2>
               </div>
 
@@ -514,7 +745,7 @@ export default function DocumentationPage() {
             {/* Contributing Section */}
             <section id="contributing" className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <UserGroupIcon className="w-6 h-6 text-green-500" />
+                <Users className="w-6 h-6 text-green-500" />
                 <h2 className="text-2xl font-bold text-gray-900">Contributing</h2>
               </div>
 
