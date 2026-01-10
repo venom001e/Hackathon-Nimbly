@@ -4,10 +4,21 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 // Initialize Gemini AI with proper error handling
 const getGenAI = () => {
   const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY
+  console.log('🔑 API Key check:', apiKey ? `Found API key: ${apiKey.substring(0, 10)}...` : 'No API key found')
+  
   if (!apiKey || apiKey === 'YOUR_ACTUAL_API_KEY_HERE') {
+    console.log('❌ No valid API key configured')
     return null
   }
-  return new GoogleGenerativeAI(apiKey)
+  
+  try {
+    const genAI = new GoogleGenerativeAI(apiKey)
+    console.log('✅ Gemini AI initialized successfully')
+    return genAI
+  } catch (error) {
+    console.error('❌ Failed to initialize Gemini AI:', error)
+    return null
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -25,9 +36,9 @@ export async function POST(request: NextRequest) {
 
     const genAI = getGenAI()
 
-    // If no valid API key, return enhanced mock response for testing
+    // Check if we have a valid API key and can use real Gemini AI
     if (!genAI) {
-      console.log('🔄 Using enhanced mock response - Gemini API key not configured')
+      console.log('🔄 Using enhanced mock response - Gemini API key not configured properly')
       
       // Generate more realistic mock data with proper accuracy
       const mockDocumentTypes = ['PAN Card', 'Aadhaar Card', 'Voter ID', 'Passport', 'Driving License']
@@ -152,6 +163,8 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    console.log('🚀 Starting real Gemini AI analysis...')
+
     // Extract base64 data from data URL with better validation
     const base64Data = image.split(',')[1]
     const mimeType = image.split(';')[0].split(':')[1]
@@ -166,6 +179,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unsupported image format. Please upload JPG, PNG, or WEBP files only.' }, { status: 400 })
     }
 
+    console.log(`📸 Processing image: ${mimeType}, size: ${base64Data.length} chars`)
+
     // Try different model names in order of preference with better error handling
     const modelNames = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro-vision', 'gemini-pro']
     let model = null
@@ -173,10 +188,11 @@ export async function POST(request: NextRequest) {
 
     for (const modelName of modelNames) {
       try {
+        console.log(`🔄 Trying model: ${modelName}`)
         model = genAI.getGenerativeModel({ 
           model: modelName,
           generationConfig: {
-            temperature: 0.2, // Slightly higher for better analysis
+            temperature: 0.2,
             topK: 40,
             topP: 0.95,
             maxOutputTokens: 8192,
@@ -319,7 +335,9 @@ RESPONSE FORMAT (JSON only, no markdown):
 REMEMBER: Your goal is ACCURACY. Don't be overly suspicious - most documents submitted will be real. Only flag as fake when you have clear evidence of fraud.`
 
     try {
-      console.log('🔍 Starting Gemini AI analysis...')
+      console.log('🔍 Sending request to Gemini AI...')
+      console.log(`📊 Prompt length: ${prompt.length} characters`)
+      console.log(`🖼️ Image data length: ${base64Data.length} characters`)
       
       const result = await model.generateContent([
         prompt,
@@ -331,10 +349,13 @@ REMEMBER: Your goal is ACCURACY. Don't be overly suspicious - most documents sub
         }
       ])
 
+      console.log('📥 Received response from Gemini AI')
       const response = await result.response
       const text = response.text()
       
-      console.log('✅ Received response from Gemini AI')
+      console.log('✅ Successfully got response text')
+      console.log(`📝 Response length: ${text.length} characters`)
+      console.log(`🔍 Response preview: ${text.substring(0, 200)}...`)
 
       // Enhanced JSON parsing with multiple fallback strategies
       let analysisResult
