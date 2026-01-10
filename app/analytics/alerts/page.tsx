@@ -28,20 +28,28 @@ export default function AlertsPage() {
   const [triggeredAlerts, setTriggeredAlerts] = useState<TriggeredAlert[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'live' | 'configure' | 'history'>('live')
+  const [selectedTimeRange, setSelectedTimeRange] = useState('30d')
+  const [selectedState, setSelectedState] = useState('')
+  const [alertMetrics, setAlertMetrics] = useState<any>(null)
 
   useEffect(() => {
     checkAlerts()
     // Auto-refresh every 30 seconds
     const interval = setInterval(checkAlerts, 30000)
     return () => clearInterval(interval)
-  }, [])
+  }, [selectedTimeRange, selectedState])
 
   const checkAlerts = async () => {
     try {
-      const res = await fetch('/api/alerts/check')
+      const params = new URLSearchParams()
+      if (selectedTimeRange) params.append('time_range', selectedTimeRange)
+      if (selectedState) params.append('state', selectedState)
+      
+      const res = await fetch(`/api/alerts/check?${params.toString()}`)
       if (res.ok) {
         const data = await res.json()
         setTriggeredAlerts(data.alerts || [])
+        setAlertMetrics(data.metrics || null)
       }
     } catch (error) {
       console.error('Error checking alerts:', error)
@@ -56,6 +64,52 @@ export default function AlertsPage() {
       case 'high': return 'bg-orange-50 border-orange-200 text-orange-800'
       case 'medium': return 'bg-yellow-50 border-yellow-200 text-yellow-800'
       default: return 'bg-blue-50 border-blue-200 text-blue-800'
+    }
+  }
+
+  const acknowledgeAlert = async (alertId: string) => {
+    try {
+      // Add to history as acknowledged
+      await fetch('/api/alerts/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          alertName: 'System Alert',
+          metric: 'alert_acknowledgment',
+          value: 1,
+          threshold: 1,
+          severity: 'low',
+          message: `Alert ${alertId} acknowledged by user`
+        })
+      })
+      
+      // Remove from current alerts (in real system, this would update status)
+      setTriggeredAlerts(prev => prev.filter(a => a.id !== alertId))
+    } catch (error) {
+      console.error('Error acknowledging alert:', error)
+    }
+  }
+
+  const resolveAlert = async (alertId: string) => {
+    try {
+      // Add to history as resolved
+      await fetch('/api/alerts/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          alertName: 'System Alert',
+          metric: 'alert_resolution',
+          value: 1,
+          threshold: 1,
+          severity: 'low',
+          message: `Alert ${alertId} resolved by user`
+        })
+      })
+      
+      // Remove from current alerts
+      setTriggeredAlerts(prev => prev.filter(a => a.id !== alertId))
+    } catch (error) {
+      console.error('Error resolving alert:', error)
     }
   }
 
@@ -84,6 +138,32 @@ export default function AlertsPage() {
             </div>
 
             <div className="flex items-center gap-3">
+              {/* Time Range Filter */}
+              <select
+                value={selectedTimeRange}
+                onChange={(e) => setSelectedTimeRange(e.target.value)}
+                className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+              >
+                <option value="7d">7 Days</option>
+                <option value="30d">30 Days</option>
+                <option value="90d">90 Days</option>
+                <option value="365d">1 Year</option>
+              </select>
+
+              {/* State Filter */}
+              <select
+                value={selectedState}
+                onChange={(e) => setSelectedState(e.target.value)}
+                className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+              >
+                <option value="">All States</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+              </select>
+
               {/* Tab Navigation */}
               <div className="flex bg-gray-100 p-1 rounded-lg">
                 {[
@@ -121,6 +201,38 @@ export default function AlertsPage() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
         {activeTab === 'live' && (
           <div className="space-y-6">
+            {/* Current Metrics Display */}
+            {alertMetrics && (
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-blue-900 mb-4">Current System Metrics</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-800">{alertMetrics.latestDailyCount?.toLocaleString()}</p>
+                    <p className="text-sm text-blue-600">Latest Daily Count</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-800">{alertMetrics.mean?.toLocaleString()}</p>
+                    <p className="text-sm text-blue-600">Average Daily</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-800">{alertMetrics.anomalyScore}</p>
+                    <p className="text-sm text-blue-600">Anomaly Score</p>
+                  </div>
+                  <div className="text-center">
+                    <p className={`text-2xl font-bold ${alertMetrics.growthRate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {alertMetrics.growthRate > 0 ? '+' : ''}{alertMetrics.growthRate}%
+                    </p>
+                    <p className="text-sm text-blue-600">Growth Rate</p>
+                  </div>
+                </div>
+                {selectedState && (
+                  <p className="text-sm text-blue-600 mt-3 text-center">
+                    Showing data for: <span className="font-medium">{selectedState}</span> • {selectedTimeRange}
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
@@ -233,19 +345,33 @@ export default function AlertsPage() {
                         </div>
                       </div>
 
-                      {alert.recommendations.length > 0 && (
-                        <div className="bg-white/30 rounded-lg p-3">
-                          <p className="text-xs font-medium mb-2 opacity-75">Recommended Actions:</p>
-                          <ul className="space-y-1">
-                            {alert.recommendations.map((rec, i) => (
-                              <li key={i} className="text-sm flex items-start gap-2">
-                                <span>•</span>
-                                {rec}
-                              </li>
-                            ))}
-                          </ul>
+                      <div className="bg-white/30 rounded-lg p-3">
+                        <p className="text-xs font-medium mb-2 opacity-75">Recommended Actions:</p>
+                        <ul className="space-y-1">
+                          {alert.recommendations.map((rec, i) => (
+                            <li key={i} className="text-sm flex items-start gap-2">
+                              <span>•</span>
+                              {rec}
+                            </li>
+                          ))}
+                        </ul>
+                        
+                        {/* Quick Actions */}
+                        <div className="flex gap-2 mt-3">
+                          <button
+                            onClick={() => acknowledgeAlert(alert.id)}
+                            className="px-3 py-1.5 bg-white/50 hover:bg-white/70 rounded text-xs font-medium transition-colors"
+                          >
+                            Acknowledge
+                          </button>
+                          <button
+                            onClick={() => resolveAlert(alert.id)}
+                            className="px-3 py-1.5 bg-white/50 hover:bg-white/70 rounded text-xs font-medium transition-colors"
+                          >
+                            Mark Resolved
+                          </button>
                         </div>
-                      )}
+                      </div>
                     </div>
                   ))}
                 </div>
