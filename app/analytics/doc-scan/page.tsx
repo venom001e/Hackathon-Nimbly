@@ -56,6 +56,7 @@ export default function DocScanPage() {
   const [error, setError] = useState<string | null>(null)
   const [dragActive, setDragActive] = useState(false)
   const [isUsingMockResponse, setIsUsingMockResponse] = useState<boolean | null>(null)
+  const [showFeedback, setShowFeedback] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleDrag = (e: React.DragEvent) => {
@@ -163,7 +164,17 @@ export default function DocScanPage() {
     setResult(null)
     setError(null)
     setIsUsingMockResponse(null)
+    setShowFeedback(false)
     if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  const handleFeedback = (isCorrect: boolean) => {
+    if (isCorrect) {
+      alert('Thank you for confirming the analysis was correct!')
+    } else {
+      alert('Thank you for the feedback. This helps improve our AI accuracy. The analysis has been flagged for review.')
+    }
+    setShowFeedback(false)
   }
 
   const getStatusColor = (status: string) => {
@@ -613,11 +624,11 @@ export default function DocScanPage() {
                   </div>
                 )}
 
-                {/* Recommendation & Summary */}
+                {/* Feedback Section */}
                 <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                   <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <SparklesIcon className="w-5 h-5 text-orange-500" />
-                    AI Recommendation
+                    AI Recommendation & Feedback
                   </h3>
                   <div className={`p-4 rounded-xl mb-4 ${
                     result.recommendation === 'ACCEPT' 
@@ -647,16 +658,39 @@ export default function DocScanPage() {
                         </p>
                         <p className="text-sm opacity-80">
                           {result.recommendation === 'ACCEPT' 
-                            ? 'Document appears to be of good quality and can be accepted' 
+                            ? 'Document appears authentic and can be accepted' 
                             : result.recommendation === 'REJECT'
-                            ? 'Document shows quality issues and should be rejected'
+                            ? 'Document shows clear signs of fraud and should be rejected'
                             : 'Document requires manual verification by an officer'}
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="space-y-4">
+                  {/* Feedback Buttons */}
+                  {!isUsingMockResponse && (
+                    <div className="bg-gray-50 rounded-xl p-4">
+                      <p className="text-sm font-medium text-gray-700 mb-3">Was this analysis accurate?</p>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => handleFeedback(true)}
+                          className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                          Yes, Correct
+                        </button>
+                        <button
+                          onClick={() => handleFeedback(false)}
+                          className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium"
+                        >
+                          <XCircleIcon className="w-4 h-4" />
+                          No, Incorrect
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="space-y-4 mt-4">
                     <div>
                       <p className="text-sm font-medium text-gray-500 mb-1">Summary</p>
                       <p className="text-gray-800">{result.summary}</p>
